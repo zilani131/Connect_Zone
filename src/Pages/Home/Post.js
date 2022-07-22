@@ -37,7 +37,7 @@ const Post = () => {
                       <div>
                         <div class="avatar">
                           <div class="w-11 rounded-full">
-                            <img src="https://placeimg.com/192/192/people" />
+                            <img src="https://i.ibb.co/0myhQ5D/Project-1-modified.png" alt='Sagor'/>
                           </div>
                         </div>
                       </div>
