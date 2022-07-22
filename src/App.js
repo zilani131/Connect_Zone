@@ -1,11 +1,11 @@
 import logo from './logo.svg';
 import './App.css';
+import Home from './Page/Home/Home';
 
 function App() {
   return (
     <div className="App">
-      <h1 className='bg-slate-500 border border-red-300'>zilani</h1>
-      <button className='btn btn-primary' > add</button>
+    <Home></Home>
     </div>
   );
 }
