@@ -2,11 +2,14 @@ import "./App.css";
 import { Routes, Route } from "react-router-dom";
 import Navbar from "./Pages/Shared/Navbar/Navbar";
 
+import './App.css';
+import Home from "./Pages/Home/Home";
+
 function App() {
   return (
     <div>
       <Navbar/>
-      <Routes>
+  {/*  <Routes>
         <Route
           path="/"
           element={
@@ -15,9 +18,11 @@ function App() {
             </h1>
           }
         />
-      </Routes>
-    </div>
-  );
-}
+        </Routes>*/}
+        <Home></Home>
+        
+
+</div>
+)};
 
 export default App;
