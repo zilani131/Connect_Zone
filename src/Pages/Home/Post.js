@@ -2,7 +2,10 @@ import React from 'react';
 
 const Post = () => {
     return (
-        <div className='p-5 my-20 w-3/5 m-auto bg-slate-200'>
+      //changed the margin my-20 and give padding to the parent home js
+      //width changed from 60% to 5/12
+      //added rounded to the parent container
+        <div className='p-5 w-5/12 m-auto bg-slate-200 rounded-lg'>
         <div className='container md:container md:mx-auto'>
           <div>
             <input type="text" placeholder="Type your ideas here" class="input border-solid border-2 border-sky-500 bg-white max-w-3xl w-full" />
@@ -65,7 +68,7 @@ const Post = () => {
                 </div> */}
 
                 <div className='py-12'>
-                  <img src={sagor} />
+                  <img src={"https://i.ibb.co/jbsRGzF/photo-2022-07-22-17-45-42.jpg"} />
                 </div>
 
                 <div className='py- grid grid-cols-1 lg:grid-cols-3'>
