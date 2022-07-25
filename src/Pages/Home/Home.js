@@ -9,6 +9,7 @@ const Home = () => {
             <Newsfeed></Newsfeed>
             <Post></Post>
             <LatestPost></LatestPost>
+            <Post></Post>
         </div>
     );
 };
