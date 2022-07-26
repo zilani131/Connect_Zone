@@ -1,22 +1,20 @@
 import "./App.css";
 import Navbar from "./Pages/Shared/Navbar/Navbar";
-import Login from "../src/Component/Login";
-import './App.css';
 import Home from "./Pages/Home/Home";
-import { Route, Routes } from "react-router-dom";
+
 
 function App() {
   return (
     <div>
       <Navbar />
-      <Routes>
+      {/* <Routes>
         <Route
           path="/login"
           element={
             <Login />
           }
         />
-      </Routes>
+      </Routes> */}
       <Home></Home>
 
 
