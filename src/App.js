@@ -1,24 +1,22 @@
 import "./App.css";
-import { Routes, Route } from "react-router-dom";
 import Navbar from "./Pages/Shared/Navbar/Navbar";
-
+import Login from "../src/Component/Login";
 import './App.css';
 import Home from "./Pages/Home/Home";
+import { Route, Routes } from "react-router-dom";
 
 function App() {
   return (
     <div>
       <Navbar />
-      {/*  <Routes>
+      <Routes>
         <Route
-          path="/"
+          path="/login"
           element={
-            <h1 className="text-4xl mt-5 text-center font-bold">
-              Connect Zone
-            </h1>
+            <Login />
           }
         />
-        </Routes>*/}
+      </Routes>
       <Home></Home>
 
 
