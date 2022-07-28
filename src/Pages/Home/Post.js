@@ -17,7 +17,7 @@ const Post = () => {
       const [news,setNews]=useState([]);
 
       useEffect(() => {
-        fetch("http://localhost:5000/news")
+        fetch("https://tranquil-plains-69980.herokuapp.com/news")
           .then((res) =>  res.json())
           .then((data) => setNews(data));
       }, []);
