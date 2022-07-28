@@ -1,16 +1,16 @@
-import React from 'react';
-import LatestPost from './LatestPost';
-import Newsfeed from './Newsfeed';
-import Post from './Post';
+import React from "react";
+import Post from "./Post";
+import LeftSide from "./LeftSide";
+import RightSide from "./RightSide";
 
 const Home = () => {
-    return (
-        <div className='flex flex-row pt-20 gap-4'>
-            <Newsfeed></Newsfeed>
-            <Post></Post>
-            <LatestPost></LatestPost>
-        </div>
-    );
+  return (
+    <div className="flex gap-4">
+      <LeftSide />
+      <Post />
+      <RightSide />
+    </div>
+  );
 };
 
 export default Home;
