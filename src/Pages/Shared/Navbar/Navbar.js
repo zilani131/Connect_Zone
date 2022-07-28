@@ -24,7 +24,7 @@ const Navbar = () => {
     </li>
   );
   return (
-    <div class="navbar bg-base-100 mx-auto lg:px-32 shadow-sm">
+    <div class="navbar bg-base-100 mx-auto lg:px-32 shadow-sm fixed z-10">
       <div class="navbar-start">
         <div class="dropdown">
           <label tabindex="0" class="btn btn-ghost lg:hidden">
@@ -61,10 +61,10 @@ const Navbar = () => {
         <ul class="menu menu-horizontal p-0">{menu}</ul>
       </div>
       <div class="navbar-end">
-        <button className="btn text-lg btn-ghost bg-gray-200 rounded-full">
+        <button className="btn text-lg btn-ghost">
           <FaRegBell />
         </button>
-        <button className="btn text-lg btn-ghost bg-gray-200 rounded-full ml-2">
+        <button className="btn text-lg btn-ghost">
           <FaFacebookMessenger />
         </button>
         <div class="dropdown dropdown-left">
