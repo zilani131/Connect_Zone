@@ -61,10 +61,10 @@ const Navbar = () => {
         <ul class="menu menu-horizontal p-0">{menu}</ul>
       </div>
       <div class="navbar-end">
-        <button className="btn text-lg btn-ghost">
+        <button className="btn text-lg btn-ghost bg-gray-200 rounded-full">
           <FaRegBell />
         </button>
-        <button className="btn text-lg btn-ghost">
+        <button className="btn text-lg btn-ghost bg-gray-200 rounded-full ml-2">
           <FaFacebookMessenger />
         </button>
         <div class="dropdown dropdown-left">
