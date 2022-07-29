@@ -1,13 +1,13 @@
 import React from "react";
-import Post from "./Post";
 import LeftSide from "./LeftSide";
 import RightSide from "./RightSide";
+import Middle from "./Middle";
 
 const Home = () => {
   return (
     <div className="flex gap-4">
       <LeftSide />
-      <Post />
+      <Middle />
       <RightSide />
     </div>
   );
