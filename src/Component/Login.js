@@ -46,7 +46,7 @@ const Login = () => {
     );
   }
   return (
-    <div className="bg-login ">
+    <div className="bg-login">
       <div className="flex max-h-screen justify-around items-center h-screen px-60">
         <div className="w-96 backdrop-blur-3xl rounded-xl bg-[#ffffff21] shadow-xl relative">
           <img
