@@ -1,5 +1,7 @@
 import React from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
 import { FaThumbsUp, FaCommentAlt } from "react-icons/fa";
+import auth from "../../firebase.init";
 import Posts from "./Posts";
 
 const Middle = () => {
@@ -12,13 +14,14 @@ const Middle = () => {
     };
     input.click();
   };
+  const [user] = useAuthState(auth);
   return (
     <div className="middle p-5 m-auto rounded-lg mt-5 max-w-3xl w-full">
       {/* Post form */}
       <div className="post-form bg-white flex justify-center rounded-xl p-10 shadow-sm">
         <img
           className="rounded-full w-12"
-          src="https://randomuser.me/api/portraits/men/43.jpg"
+          src={user.photoURL}
           alt=""
         />
         <label

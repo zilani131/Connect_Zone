@@ -1,31 +1,47 @@
 import React from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
 import { FaThumbsUp, FaCommentAlt } from "react-icons/fa";
+import auth from "../../firebase.init";
 
 const Post = ({ post }) => {
-  const { name, profilepic } = post;
+  const { userName, userImage, time, postCaption, postImages } = post;
+  const [user] = useAuthState(auth);
+  const minute = 1000 * 60;
+const hour = minute * 60;
+const day = hour * 24;
+const year = day * 365;
   return (
     <div class="post card max-w-3xl w-full bg-white shadow-xl mt-5">
       <div class="card-body">
         <div className="post-header flex items-center">
           <img
             className="rounded-full w-11"
-            src={profilepic}
+            src={userImage}
             alt=""
           />
           <div className="post-header-info flex flex-col ml-2">
-            <h4 className="font-semibold">{name}</h4>
+            <h4 className="font-semibold">{userName}</h4>
             <span className="text-xs link-hover cursor-pointer text-gray-400">
-              1h
+              {"Just now"}
             </span>
           </div>
         </div>
 
         <div className="post-content py-1">
-          <img
-            className="rounded-lg"
-            src="https://i.ibb.co/jbsRGzF/photo-2022-07-22-17-45-42.jpg"
-            alt=""
-          />
+          <p className="mb-2 ml-2">{postCaption}</p>
+          {
+            postImages.map((image, index) => {
+              return (
+                <img
+                  key={index}
+                  className="w-full rounded-lg"
+                  src={image}
+                  alt=""
+                />
+              );
+            }
+            )
+          }
         </div>
         <hr />
         <div className="flex justify-around">
@@ -44,7 +60,7 @@ const Post = ({ post }) => {
           <div className="comment flex">
             <img
               className="w-12 rounded-full"
-              src="https://randomuser.me/api/portraits/men/43.jpg"
+              src={user.photoURL}
               alt=""
             />
             <input
@@ -54,7 +70,7 @@ const Post = ({ post }) => {
             />
           </div>
           {/* All comments */}
-          <div className="comments flex mt-2">
+          {/* <div className="comments flex mt-2">
             <div className="commenter-img">
               <img
                 className="w-12 rounded-full"
@@ -72,7 +88,7 @@ const Post = ({ post }) => {
                 <p>Very good. Go ahead.</p>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>
