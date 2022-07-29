@@ -1,117 +1,166 @@
-import React from 'react';
-import { useSignInWithEmailAndPassword, useSignInWithGoogle } from 'react-firebase-hooks/auth';
+import React from "react";
+import {
+    useAuthState,
+  useSignInWithEmailAndPassword,
+  useSignInWithGoogle,
+} from "react-firebase-hooks/auth";
 import { useForm } from "react-hook-form";
-import { Link, useNavigate, useLocation } from 'react-router-dom';
-import auth from '../firebase.init';
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import auth from "../firebase.init";
 // import useToken from '../hooks/useToken';
-import Loading from '../Pages/Shared/Loading/Loading';
+import Loading from "../Pages/Shared/Loading/Loading";
+import { FaEnvelope, FaKey } from "react-icons/fa";
 
 const Login = () => {
-    const [
-        signInWithEmailAndPassword,
-        user,
-        loading,
-        error,
-    ] = useSignInWithEmailAndPassword(auth);
-    const [
-        signInWithGoogle,
-        gUser,
-        gLoading,
-        gError] = useSignInWithGoogle(auth);
+  const [signInWithEmailAndPassword, eUser, eLoading, error] =
+    useSignInWithEmailAndPassword(auth);
+  const [signInWithGoogle, gUser, gLoading, gError] = useSignInWithGoogle(auth);
+  const [user, loading] = useAuthState(auth)
 
-    const navigate = useNavigate();
-    const location = useLocation();
-    const { register, formState: { errors }, handleSubmit, reset } = useForm();
-    // const [token] = useToken(user || gUser)
-    const onSubmit = data => {
-        reset()
-        signInWithEmailAndPassword(data?.email, data?.password)
-    };
-    let from = location.state?.from?.pathname || "/";
-    let signInError;
-    if (user || gUser) {
-        navigate(from, { replace: true });
-    }
-    if (loading || gLoading) {
-        return <Loading />
-    }
-    if (error || gError) {
-        signInError = <p className='text-red-500'><small>{error?.message}</small></p>
-    }
-    return (
-        <div>
-            <div className='flex max-h-screen justify-around items-center h-screen'>
-                <div className="card w-96 bg-base-100 shadow-xl">
-                    <div className="card-body">
-                        <h2 className="text-center text-2xl font-bold">Login</h2>
-                        <form onSubmit={handleSubmit(onSubmit)}>
-                            <div className="form-control w-full max-w-xs">
-                                <label className="label">
-                                    <span className="label-text">Email</span>
-                                </label>
-                                <input
-                                    type="email"
-                                    placeholder="Your Email"
-                                    className="input input-bordered w-full max-w-xs"
-                                    {...register("email", {
-                                        required: {
-                                            value: true,
-                                            message: 'Email is Required'
-                                        },
-                                        pattern: {
-                                            value: /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/,
-                                            message: 'Provide a valid Email'
-                                        }
-                                    })}
-                                />
-                                <label className="label">
-                                    {errors?.email?.type === 'required' && <span className="label-text-alt text-red-500">{errors?.email?.message}</span>}
-                                    {errors?.email?.type === 'pattern' && <span className="label-text-alt text-red-500">{errors?.email?.message}</span>}
-                                </label>
-                            </div>
-                            <div className="form-control w-full max-w-xs">
-                                <label className="label">
-                                    <span className="label-text">Password</span>
-                                </label>
-                                <input
-                                    type="password"
-                                    placeholder="Password"
-                                    className="input input-bordered w-full max-w-xs"
-                                    {...register("password", {
-                                        required: {
-                                            value: true,
-                                            message: 'Password is Required'
-                                        },
-                                        minLength: {
-                                            value: 6,
-                                            message: 'Must be 6 characters or longer'
-                                        }
-                                    })}
-                                />
-                                <label className="label">
-                                    {errors?.password?.type === 'required' && <span className="label-text-alt text-red-500">{errors?.password?.message}</span>}
-                                    {errors?.password?.type === 'minLength' && <span className="label-text-alt text-red-500">{errors?.password?.message}</span>}
-                                </label>
-                            </div>
-                            <input className='btn btn-primary w-full mt-5 max-w-xs text-white' type="submit" value="Login" />
-                            {signInError}
-                        </form>
-                        <p className='text-2xl'><small><Link className='text-red-700 hover:text-green-600 font-bold' to="/register">Create A New Account</Link></small></p>
-                        <div className="divider">OR</div>
-                        <button
-                            onClick={() => signInWithGoogle()}
-                            className="btn btn-primary btn-outline"
-                        >Continue with Google</button>
-                    </div>
+  const navigate = useNavigate();
+  const location = useLocation();
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+    reset,
+  } = useForm();
+  const onSubmit = (data) => {
+    reset();
+    signInWithEmailAndPassword(data?.email, data?.password);
+  };
+  let from = location.state?.from?.pathname || "/";
+  let signInError;
 
-                </div>
-                <div className='w-0 md:w-80 lg:w-96'>
-                    <img className='bg-base-100 shadow-xl rounded-lg' src="https://thumbs.dreamstime.com/b/business-woman-drawing-global-structure-networking-business-woman-drawing-global-structure-networking-data-exchanges-customer-109179483.jpg" alt="" />
-                </div>
-            </div >
-
-        </div>
+  if (loading) {
+    return <Loading />;
+  }
+  if (user) {
+    navigate(from, { replace: true });
+  }
+  if (error || gError) {
+    signInError = (
+      <p className="text-red-500">
+        <small>{error?.message}</small>
+      </p>
     );
+  }
+  return (
+    <div className="bg-login">
+      <div className="flex max-h-screen justify-around items-center h-screen px-60">
+        <div className="w-96 backdrop-blur-3xl rounded-xl bg-[#ffffff21] shadow-xl relative">
+          <img
+            className="absolute -top-10 left-[40%] w-20 bg-[#00264D] p-4 rounded-full"
+            src="https://i.ibb.co/Rg4TL4y/user.png"
+            alt=""
+          />
+          <div className="card-body">
+            <form onSubmit={handleSubmit(onSubmit)} className="mt-8">
+              <div className="form-control w-full max-w-xs">
+                <label class="input-group">
+                  <span className="bg-[#00264D] text-white">
+                    <FaEnvelope />
+                  </span>
+                  <input
+                    type="email"
+                    placeholder="Email"
+                    className="input input-bordered w-full max-w-xs bg-[#0B0F2C]"
+                    {...register("email", {
+                      required: {
+                        value: true,
+                        message: "Email is Required",
+                      },
+                      pattern: {
+                        value: /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/,
+                        message: "Provide a valid Email",
+                      },
+                    })}
+                  />
+                </label>
+                <label className="label">
+                  {errors?.email?.type === "required" && (
+                    <span className="label-text-alt text-red-500">
+                      {errors?.email?.message}
+                    </span>
+                  )}
+                  {errors?.email?.type === "pattern" && (
+                    <span className="label-text-alt text-red-500">
+                      {errors?.email?.message}
+                    </span>
+                  )}
+                </label>
+              </div>
+              <div className="form-control w-full max-w-xs">
+                <label class="input-group">
+                  <span className="bg-[#00264D] text-white">
+                    <FaKey />
+                  </span>
+                  <input
+                    type="password"
+                    placeholder="Password"
+                    className="input input-bordered w-full max-w-xs bg-[#0B0F2C]"
+                    {...register("password", {
+                      required: {
+                        value: true,
+                        message: "Password is Required",
+                      },
+                      minLength: {
+                        value: 6,
+                        message: "Must be 6 characters or longer",
+                      },
+                    })}
+                  />
+                </label>
+                <label className="label">
+                  {errors?.password?.type === "required" && (
+                    <span className="label-text-alt text-red-500">
+                      {errors?.password?.message}
+                    </span>
+                  )}
+                  {errors?.password?.type === "minLength" && (
+                    <span className="label-text-alt text-red-500">
+                      {errors?.password?.message}
+                    </span>
+                  )}
+                </label>
+              </div>
+              <div className="flex justify-between">
+                <Link
+                  to="/register"
+                  className="text-[#e7e7e7] text-center text-sm link-hover"
+                >
+                  Create a New Account
+                </Link>
+                <Link
+                  to="/reset-password"
+                  className="text-[#e7e7e7] text-center text-sm link-hover"
+                >
+                  Forgot Password?
+                </Link>
+              </div>
+              <input
+                className="bg-[#00264D] rounded-lg py-3 cursor-pointer hover:bg-[#01356a] transition-all duration-300 w-full text-white mt-3"
+                type="submit"
+                value="Login"
+              />
+              {signInError}
+            </form>
+            <div className="divider text-white before:bg-[#0B0F2C] after:bg-[#0B0F2C]">OR</div>
+            <button
+              onClick={() => signInWithGoogle()}
+              className="border-2 transition-all duration-300 border-[#0B0F2C] rounded-full py-2 bg-[#0B0F2C] hover:bg-transparent hover:text-gray-800 w-14 mx-auto"
+            >
+              <img
+                className="w-9 mx-auto"
+                src="https://img.icons8.com/fluency/344/google-logo.png"
+                alt=""
+              />
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default Login;
