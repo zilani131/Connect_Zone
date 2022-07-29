@@ -1,5 +1,6 @@
 import React from "react";
 import {
+    useAuthState,
   useSignInWithEmailAndPassword,
   useSignInWithGoogle,
 } from "react-firebase-hooks/auth";
@@ -11,9 +12,10 @@ import Loading from "../Pages/Shared/Loading/Loading";
 import { FaEnvelope, FaKey } from "react-icons/fa";
 
 const Login = () => {
-  const [signInWithEmailAndPassword, user, loading, error] =
+  const [signInWithEmailAndPassword, eUser, eLoading, error] =
     useSignInWithEmailAndPassword(auth);
   const [signInWithGoogle, gUser, gLoading, gError] = useSignInWithGoogle(auth);
+  const [user, loading] = useAuthState(auth)
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -29,11 +31,12 @@ const Login = () => {
   };
   let from = location.state?.from?.pathname || "/";
   let signInError;
-  if (user || gUser) {
-    navigate(from, { replace: true });
-  }
-  if (loading || gLoading) {
+
+  if (loading) {
     return <Loading />;
+  }
+  if (user) {
+    navigate(from, { replace: true });
   }
   if (error || gError) {
     signInError = (
