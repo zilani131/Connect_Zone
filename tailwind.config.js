@@ -20,6 +20,9 @@ module.exports = {
   },
   theme: {
     extend: {},
+    backgroundImage: {
+      'login': "url('https://i.ibb.co/6tx79N5/blur-background-6z-2560x1600.jpg')",
+    },
   },
   plugins: [require("daisyui")],
 };

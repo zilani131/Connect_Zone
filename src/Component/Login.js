@@ -8,6 +8,7 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import auth from "../firebase.init";
 // import useToken from '../hooks/useToken';
 import Loading from "../Pages/Shared/Loading/Loading";
+import { FaEnvelope, FaKey } from "react-icons/fa";
 
 const Login = () => {
   const [signInWithEmailAndPassword, user, loading, error] =
@@ -42,33 +43,37 @@ const Login = () => {
     );
   }
   return (
-    <div>
+    <div className="bg-login ">
       <div className="flex max-h-screen justify-around items-center h-screen px-60">
-        <div className="w-0 md:w-80 lg:w-96">
-          <h2 className="text-primary text-5xl font-bold mb-2">Connect Zone</h2>
-          <p className="font-medium text-lg">
-            Connect with your friends and the world around you on Connect zone
-          </p>
-        </div>
-        <div className="card w-96 bg-base-100 shadow-xl">
+        <div className="w-96 backdrop-blur-3xl rounded-xl bg-[#ffffff21] shadow-xl relative">
+          <img
+            className="absolute -top-10 left-[40%] w-20 bg-[#00264D] p-4 rounded-full"
+            src="https://i.ibb.co/Rg4TL4y/user.png"
+            alt=""
+          />
           <div className="card-body">
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <form onSubmit={handleSubmit(onSubmit)} className="mt-8">
               <div className="form-control w-full max-w-xs">
-                <input
-                  type="email"
-                  placeholder="Email"
-                  className="input input-bordered w-full max-w-xs"
-                  {...register("email", {
-                    required: {
-                      value: true,
-                      message: "Email is Required",
-                    },
-                    pattern: {
-                      value: /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/,
-                      message: "Provide a valid Email",
-                    },
-                  })}
-                />
+                <label class="input-group">
+                  <span className="bg-[#00264D] text-white">
+                    <FaEnvelope />
+                  </span>
+                  <input
+                    type="email"
+                    placeholder="Email"
+                    className="input input-bordered w-full max-w-xs bg-[#0B0F2C]"
+                    {...register("email", {
+                      required: {
+                        value: true,
+                        message: "Email is Required",
+                      },
+                      pattern: {
+                        value: /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/,
+                        message: "Provide a valid Email",
+                      },
+                    })}
+                  />
+                </label>
                 <label className="label">
                   {errors?.email?.type === "required" && (
                     <span className="label-text-alt text-red-500">
@@ -83,21 +88,26 @@ const Login = () => {
                 </label>
               </div>
               <div className="form-control w-full max-w-xs">
-                <input
-                  type="password"
-                  placeholder="Password"
-                  className="input input-bordered w-full max-w-xs"
-                  {...register("password", {
-                    required: {
-                      value: true,
-                      message: "Password is Required",
-                    },
-                    minLength: {
-                      value: 6,
-                      message: "Must be 6 characters or longer",
-                    },
-                  })}
-                />
+                <label class="input-group">
+                  <span className="bg-[#00264D] text-white">
+                    <FaKey />
+                  </span>
+                  <input
+                    type="password"
+                    placeholder="Password"
+                    className="input input-bordered w-full max-w-xs bg-[#0B0F2C]"
+                    {...register("password", {
+                      required: {
+                        value: true,
+                        message: "Password is Required",
+                      },
+                      minLength: {
+                        value: 6,
+                        message: "Must be 6 characters or longer",
+                      },
+                    })}
+                  />
+                </label>
                 <label className="label">
                   {errors?.password?.type === "required" && (
                     <span className="label-text-alt text-red-500">
@@ -111,29 +121,31 @@ const Login = () => {
                   )}
                 </label>
               </div>
+              <div className="flex justify-between">
+                <Link
+                  to="/register"
+                  className="text-[#e7e7e7] text-center text-sm link-hover"
+                >
+                  Create a New Account
+                </Link>
+                <Link
+                  to="/reset-password"
+                  className="text-[#e7e7e7] text-center text-sm link-hover"
+                >
+                  Forgot Password?
+                </Link>
+              </div>
               <input
-                className="btn btn-primary w-full text-white"
+                className="bg-[#00264D] rounded-lg py-3 cursor-pointer hover:bg-[#01356a] transition-all duration-300 w-full text-white mt-3"
                 type="submit"
                 value="Login"
               />
               {signInError}
             </form>
-            <Link
-              to="reset-password"
-              className="text-primary text-center font-semibold link-hover my-1"
-            >
-              Forgot Password?
-            </Link>
-            <Link
-              to="/register"
-              className="w-4/5 text-center mx-auto hover:bg-transparent transition-all duration-500 cursor-pointer hover:text-gray-800 font-semibold border-2 border-success rounded-lg py-2 bg-success text-white"
-            >
-              Create a New Account
-            </Link>
-            <div className="divider">OR</div>
+            <div className="divider text-white before:bg-[#0B0F2C] after:bg-[#0B0F2C]">OR</div>
             <button
               onClick={() => signInWithGoogle()}
-              className="border border-gray-300 rounded-full py-2 bg-gray-100 text-gray-700 hover:bg-gray-200 hover:text-gray-800 w-14 mx-auto"
+              className="border-2 transition-all duration-300 border-[#0B0F2C] rounded-full py-2 bg-[#0B0F2C] hover:bg-transparent hover:text-gray-800 w-14 mx-auto"
             >
               <img
                 className="w-9 mx-auto"
