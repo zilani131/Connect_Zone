@@ -1,6 +1,8 @@
-import React from 'react';
+import React from "react";
+import { useForm } from "react-hook-form";
+import { Link } from "react-router-dom";
 
-const registration = () => {
+const Register = () => {
   const {
     register,
     formState: { errors },
@@ -11,16 +13,20 @@ const registration = () => {
   };
 
   return (
-    <div class="form-control w-3/4 mx-auto my-5 border ">
-      <h1 className="text-4xl font-bold my-5"> Registration</h1>
-      <form onSubmit={handleSubmit(onSubmit)}>
+    <div class="form-control mx-auto">
+      <h1 className="text-4xl font-bold my-5 text-center"> Registration</h1>
+      <span className="text-center">Back to <Link className="link-hover" to="/login">Login</Link></span>
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="mx-auto w-full max-w-2xl"
+      >
         <label class="label ">
           <span class="label-text text-xl font-bold w-3/4"> First Name</span>
         </label>
         <input
           type="text"
           placeholder="Type Your First Name Here"
-          class="input input-bordered w-3/4 max-w-xs"
+          class="input input-bordered w-full"
           {...register("FirstName", {
             required: true,
             maxLength: {
@@ -36,7 +42,7 @@ const registration = () => {
         <input
           type="text"
           placeholder="Type Your last  Name Here"
-          class="input input-bordered w-3/4 max-w-xs"
+          class="input input-bordered w-full"
           {...register("LastName", {
             required: true,
             maxLength: {
@@ -59,7 +65,7 @@ const registration = () => {
         <input
           type="text"
           placeholder="Type Your User Name Here"
-          class="input input-bordered w-3/4 max-w-xs"
+          class="input input-bordered w-full"
           {...register("UserName", {
             required: true,
             maxLength: {
@@ -75,7 +81,7 @@ const registration = () => {
         <input
           type="text"
           placeholder="Enter Your Password Here"
-          class="input input-bordered w-3/4 max-w-xs"
+          class="input input-bordered w-full"
           {...register("Passward", {
             required: true,
             minLength: 8,
@@ -93,12 +99,11 @@ const registration = () => {
         <input
           type="text"
           placeholder="Type Your Email Here"
-          class="input input-bordered w-full max-w-xs"
+          class="input input-bordered w-full"
           {...register("Email", {
             required: true,
             pattern: {
-              value:
-                /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/,
+              value: /^([a-zA-Z0-9_\-.]+)@([a-zA-Z0-9_\-.]+)\.([a-zA-Z]{2,5})$/,
               message: "errors",
             },
           })}
@@ -116,7 +121,7 @@ const registration = () => {
         <input
           type="number"
           placeholder="Type Your Phone Number"
-          class="input input-bordered w-full max-w-xs w-3/4"
+          class="input input-bordered w-full"
           {...register("Phone", {
             required: false,
             minLength: {
@@ -147,7 +152,7 @@ const registration = () => {
         <input
           type="date"
           placeholder="Your Date of Birth"
-          class="input input-bordered w-full max-w-xs"
+          class="input input-bordered w-full"
           {...register("DB", {
             required: true,
             validate: (value) => new Date() - value > "18" || "error message",
@@ -160,9 +165,12 @@ const registration = () => {
           </span>
         </label>
 
-        <input type="submit" class=" btn m-5 block  mx-auto" />
+        <input
+          type="submit"
+          class="btn btn-primary w-full text-white m-5 block  mx-auto"
+        />
       </form>
     </div>
   );
 };
-export default registration;
+export default Register;

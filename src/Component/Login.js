@@ -40,7 +40,7 @@ const Login = () => {
     }
     return (
         <div>
-            <div className='flex max-h-screen justify-around m-10 items-center'>
+            <div className='flex max-h-screen justify-around items-center h-screen'>
                 <div className="card w-96 bg-base-100 shadow-xl">
                     <div className="card-body">
                         <h2 className="text-center text-2xl font-bold">Login</h2>

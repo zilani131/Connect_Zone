@@ -1,4 +1,5 @@
 import React from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
 import {
   FaHome,
   FaStore,
@@ -7,9 +8,19 @@ import {
   FaFacebookMessenger,
 } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import auth from "../../../firebase.init";
 import logo from "../../../images/CZ.png";
+import Loading from "../Loading/Loading";
 
 const Navbar = () => {
+  const [user, loading] = useAuthState(auth);
+
+  if (loading) {
+    return <Loading />;
+  }
+
+  console.log(user);
+
   const menu = (
     <li className="text-2xl">
       <Link to="/" title="Home">
@@ -24,7 +35,7 @@ const Navbar = () => {
     </li>
   );
   return (
-    <div class="navbar bg-base-100 mx-auto lg:px-32 shadow-sm fixed z-10">
+    <div class="navbar bg-base-100 mx-auto lg:px-32 shadow-sm  z-10">
       <div class="navbar-start">
         <div class="dropdown">
           <label tabindex="0" class="btn btn-ghost lg:hidden">
@@ -61,29 +72,43 @@ const Navbar = () => {
         <ul class="menu menu-horizontal p-0">{menu}</ul>
       </div>
       <div class="navbar-end">
-        <button className="btn text-lg btn-ghost">
-          <FaRegBell />
-        </button>
-        <button className="btn text-lg btn-ghost">
-          <FaFacebookMessenger />
-        </button>
-        <div class="dropdown dropdown-left">
-          <label tabindex="0" class="btn btn-ghost m-1">
-            <img
-              src="https://randomuser.me/api/portraits/men/43.jpg"
-              className="rounded-full w-10"
-              alt=""
-            />
-          </label>
-          <ul
-            tabindex="0"
-            class="dropdown-content menu shadow bg-base-100 rounded-box w-56 p-4 leading-5"
+        {user ? (
+          <>
+            <button className="btn text-lg btn-ghost">
+              <FaRegBell />
+            </button>
+            <button className="btn text-lg btn-ghost">
+              <FaFacebookMessenger />
+            </button>
+            <div class="dropdown dropdown-left">
+              <label tabindex="0" class="btn btn-ghost m-1">
+                <img src={user.photoURL} className="rounded-full w-10" alt="" />
+              </label>
+              <ul
+                tabindex="0"
+                class="dropdown-content menu shadow bg-base-100 rounded-box w-56 p-4 leading-5"
+              >
+                <h1 className="font-semibold mb-2">{user.displayName}</h1>
+                <h1 className="mb-3">{user.email}</h1>
+                <button
+                  className="btn btn-primary text-white"
+                  onClick={() => {
+                    auth.signOut();
+                  }}
+                >
+                  Log Out
+                </button>
+              </ul>
+            </div>
+          </>
+        ) : (
+          <Link
+            to="/login"
+            className="btn btn-error rounded-full text-white px-10"
           >
-            <h1 className="font-semibold mb-2">John Doe</h1>
-            <h1 className="mb-3">johndoe334@gmail.com</h1>
-            <button className="btn btn-primary text-white">Log Out</button>
-          </ul>
-        </div>
+            Sign in
+          </Link>
+        )}
       </div>
     </div>
   );

@@ -3,7 +3,7 @@ import { FaRegBell, FaFacebookMessenger } from "react-icons/fa";
 
 const RightSide = () => {
   return (
-    <div className="right-side pt-3 pl-4 w-2/6 lg:block hidden mt-20">
+    <div className="right-side pl-4 w-2/6 lg:block hidden pt-5 bg-white">
       <div className="fixed w-full">
         <div className="child flex items-center hover:bg-slate-200 cursor-pointer p-2 rounded-lg transition-all duration-200">
           <FaFacebookMessenger />

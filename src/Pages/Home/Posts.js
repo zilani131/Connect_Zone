@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import Post from "./Post";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import Post from "./Post";
+import ContentLoader from "react-content-loader";
 
 const Posts = () => {
   const [posts, setPosts] = useState([]);
@@ -20,19 +21,46 @@ const Posts = () => {
   if (postsLoading) {
     return (
       <div>
-        <SkeletonTheme baseColor="#cdd3d4" highlightColor="#f5f7f7">
-          <Skeleton className="h-12 mr-4" width="7%" borderRadius="50%" inline={true}/>
-          <div className="inline">
-          <Skeleton width="50%"/>
-          </div>
-        </SkeletonTheme>
-        <SkeletonTheme baseColor="#cdd3d4" highlightColor="#f5f7f7">
-        <Skeleton />
-        <Skeleton />
-          <Skeleton className="h-60" />
-          <Skeleton/>
-          <Skeleton/>
-        </SkeletonTheme>
+        <div className="mt-5">
+          <SkeletonTheme baseColor="#cdd3d4" highlightColor="#f5f7f7">
+            <Skeleton
+              className="h-12 mr-4"
+              width="7%"
+              borderRadius="50%"
+              inline={true}
+            />
+            <div className="inline">
+              <Skeleton width="50%" />
+            </div>
+          </SkeletonTheme>
+          <SkeletonTheme baseColor="#cdd3d4" highlightColor="#f5f7f7">
+            <Skeleton />
+            <Skeleton />
+            <Skeleton className="h-60" />
+            <Skeleton />
+            <Skeleton />
+          </SkeletonTheme>
+        </div>
+        <div className="mt-5">
+          <SkeletonTheme baseColor="#cdd3d4" highlightColor="#f5f7f7">
+            <Skeleton
+              className="h-12 mr-4"
+              width="7%"
+              borderRadius="50%"
+              inline={true}
+            />
+            <div className="inline">
+              <Skeleton width="50%" />
+            </div>
+          </SkeletonTheme>
+          <SkeletonTheme baseColor="#cdd3d4" highlightColor="#f5f7f7">
+            <Skeleton />
+            <Skeleton />
+            <Skeleton className="h-60" />
+            <Skeleton />
+            <Skeleton />
+          </SkeletonTheme>
+        </div>
       </div>
     );
   }

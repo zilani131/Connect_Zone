@@ -13,7 +13,7 @@ const Middle = () => {
     input.click();
   };
   return (
-    <div className="middle p-5 m-auto rounded-lg mt-20 max-w-3xl w-full">
+    <div className="middle p-5 m-auto rounded-lg mt-5 max-w-3xl w-full">
       {/* Post form */}
       <div className="post-form bg-white flex justify-center rounded-xl p-10 shadow-sm">
         <img
