@@ -6,10 +6,6 @@ import auth from "../../firebase.init";
 const Post = ({ post }) => {
   const { userName, userImage, time, postCaption, postImages } = post;
   const [user] = useAuthState(auth);
-  const minute = 1000 * 60;
-const hour = minute * 60;
-const day = hour * 24;
-const year = day * 365;
   return (
     <div class="post card max-w-3xl w-full bg-white shadow-xl mt-5">
       <div class="card-body">
