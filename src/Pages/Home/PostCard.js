@@ -9,26 +9,26 @@ const PostCard = ({n}) => {
         <div className='p-5 w-full m-auto bg-slate-200 rounded-lg'>
         <div className='container md:container md:mx-auto'>
           <div>
-            <input type="text" placeholder="Type your ideas here" class="input border-solid border-2 border-sky-500 bg-white max-w-3xl w-full" />
+            <input type="text" placeholder="Type your ideas here" className="input border-solid border-2 border-sky-500 bg-white max-w-3xl w-full" />
             <div className='py-5 flex gap-5 justify-center'>
               <div className=''>
-                <button class="btn glass btn-sm bg-white">Attach Img</button>
+                <button className="btn glass btn-sm bg-white">Attach Img</button>
               </div>
               <div>
-                <button class="btn glass btn-sm bg-white">Attach oth</button>
+                <button className="btn glass btn-sm bg-white">Attach oth</button>
               </div>
             </div>
-            <div class="flex justify-end">
+            <div className="flex justify-end">
               <div>
 
               </div>
               <div>
-                <button class="btn glass btn rounded-full w-32 bg-white">post</button>
+                <button className="btn glass btn rounded-full w-32 bg-white">post</button>
               </div>
             </div>
 
-            <div class="card max-w-3xl w-full bg-white shadow-xl mt-10">
-              <div class="card-body">
+            <div className="card max-w-3xl w-full bg-white shadow-xl mt-10">
+              <div className="card-body">
 
 
 
@@ -36,8 +36,8 @@ const PostCard = ({n}) => {
                   <div>
                     <div className='lg:flex items-center gap-2 w-fit'>
                       <div>
-                        <div class="avatar">
-                          <div class="w-11 rounded-full">
+                        <div className="avatar">
+                          <div className="w-11 rounded-full">
                             <img src={profilepic} alt='Sagor'/>
                           </div>
                         </div>
@@ -52,10 +52,10 @@ const PostCard = ({n}) => {
 
                   </div>
                   <div>
-                    <button class="btn w-32 rounded-full glass btn bg-white">Block</button>
+                    <button className="btn w-32 rounded-full glass btn bg-white">Block</button>
                   </div>
                   <div>
-                    <button class="btn glass rounded-full w-32 btn bg-white">Follow 1.5k</button>
+                    <button className="btn glass rounded-full w-32 btn bg-white">Follow 1.5k</button>
                   </div>
                 </div>
 
@@ -85,7 +85,7 @@ const PostCard = ({n}) => {
                 </div>
 
                 <div className='py-3'>
-                <input type="text" placeholder="Write a comment" class="input border-solid border-2 border-sky-500 bg-white max-w-3xl w-full" />
+                <input type="text" placeholder="Write a comment" className="input border-solid border-2 border-sky-500 bg-white max-w-3xl w-full" />
                 </div>
 
 

@@ -1,15 +1,15 @@
 import React, { useEffect } from "react";
 import {
-  useAuthState,
-  useSignInWithEmailAndPassword,
+    useAuthState,
+    useSignInWithEmailAndPassword
 } from "react-firebase-hooks/auth";
 import { useForm } from "react-hook-form";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import auth from "../firebase.init";
 // import useToken from '../hooks/useToken';
-import Loading from "../Pages/Shared/Loading/Loading";
 import { FaEnvelope, FaKey } from "react-icons/fa";
 import { toast } from "react-toastify";
+import Loading from "../Pages/Shared/Loading/Loading";
 
 const Login = () => {
   const [signInWithEmailAndPassword, eUser, eLoading, error] =
@@ -64,7 +64,7 @@ const Login = () => {
           <div className="card-body">
             <form onSubmit={handleSubmit(onSubmit)} className="mt-8">
               <div className="form-control w-full max-w-xs">
-                <label class="input-group">
+                <label className="input-group">
                   <span className="bg-[#00264D] text-white">
                     <FaEnvelope />
                   </span>
@@ -98,7 +98,7 @@ const Login = () => {
                 </label>
               </div>
               <div className="form-control w-full max-w-xs">
-                <label class="input-group">
+                <label className="input-group">
                   <span className="bg-[#00264D] text-white">
                     <FaKey />
                   </span>

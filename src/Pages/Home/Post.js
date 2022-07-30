@@ -1,6 +1,6 @@
 import React from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { FaThumbsUp, FaCommentAlt } from "react-icons/fa";
+import { FaCommentAlt, FaThumbsUp } from "react-icons/fa";
 import auth from "../../firebase.init";
 
 const Post = ({ post }) => {
@@ -11,8 +11,8 @@ const hour = minute * 60;
 const day = hour * 24;
 const year = day * 365;
   return (
-    <div class="post card max-w-3xl w-full bg-white shadow-xl mt-5">
-      <div class="card-body">
+    <div className="post card max-w-3xl w-full bg-white shadow-xl mt-5">
+      <div className="card-body">
         <div className="post-header flex items-center">
           <img
             className="rounded-full w-11"
@@ -66,7 +66,7 @@ const year = day * 365;
             <input
               type="text"
               placeholder="Write a comment..."
-              class="input w-full ml-2 bg-gray-200 rounded-full"
+              className="input w-full ml-2 bg-gray-200 rounded-full"
             />
           </div>
           {/* All comments */}

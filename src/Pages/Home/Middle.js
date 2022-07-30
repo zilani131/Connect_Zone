@@ -1,6 +1,5 @@
 import React from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { FaThumbsUp, FaCommentAlt } from "react-icons/fa";
 import auth from "../../firebase.init";
 import Posts from "./Posts";
 
@@ -26,7 +25,7 @@ const Middle = () => {
         />
         <label
           for="my-modal"
-          class="cursor-pointer pl-5 relative bg-gray-200 rounded-full w-full ml-4 modal-button"
+          className="cursor-pointer pl-5 relative bg-gray-200 rounded-full w-full ml-4 modal-button"
         >
           <span className="absolute top-1/4">What are you thinking, John?</span>
         </label>
@@ -37,20 +36,20 @@ const Middle = () => {
 
       {/* Modal */}
 <div className="post-modal">
-<input type="checkbox" id="my-modal" class="modal-toggle" />
-      <div class="modal">
-        <div class="modal-box relative">
+<input type="checkbox" id="my-modal" className="modal-toggle" />
+      <div className="modal">
+        <div className="modal-box relative">
           <label
             for="my-modal"
-            class="btn btn-sm btn-circle absolute right-2 top-2"
+            className="btn btn-sm btn-circle absolute right-2 top-2"
           >
             ✕
           </label>
 
-          <h3 class="font-bold text-lg text-center mb-2">Create post</h3>
+          <h3 className="font-bold text-lg text-center mb-2">Create post</h3>
           <hr />
           <textarea
-            class="textarea w-full placeholder:text-2xl"
+            className="textarea w-full placeholder:text-2xl"
             placeholder="What are you thinking, John?"
             rows="8"
           ></textarea>
@@ -63,7 +62,7 @@ const Middle = () => {
               alt=""
             />
           </div>
-          <button class="btn btn-primary w-full text-white">Post</button>
+          <button className="btn btn-primary w-full text-white">Post</button>
         </div>
       </div>
 </div>

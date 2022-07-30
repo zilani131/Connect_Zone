@@ -1,11 +1,8 @@
 import React from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import {
-  FaHome,
-  FaStore,
-  FaUsers,
-  FaRegBell,
-  FaFacebookMessenger,
+  FaFacebookMessenger, FaHome, FaRegBell, FaStore,
+  FaUsers
 } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import auth from "../../../firebase.init";
@@ -35,13 +32,13 @@ const Navbar = () => {
     </li>
   );
   return (
-    <div class="navbar bg-base-100 mx-auto lg:px-32 shadow-sm  z-10">
-      <div class="navbar-start">
-        <div class="dropdown">
-          <label tabindex="0" class="btn btn-ghost lg:hidden">
+    <div className="navbar bg-base-100 mx-auto lg:px-32 shadow-sm  z-10">
+      <div className="navbar-start">
+        <div className="dropdown">
+          <label tabindex="0" className="btn btn-ghost lg:hidden">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              class="h-5 w-5"
+              className="h-5 w-5"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -56,7 +53,7 @@ const Navbar = () => {
           </label>
           <ul
             tabindex="0"
-            class="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
+            className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
           >
             {menu}
           </ul>
@@ -65,13 +62,13 @@ const Navbar = () => {
         <input
           type="text"
           placeholder="Search Connected Zone"
-          class="input input-bordered lg:max-w-xs w-full max-h-11 rounded-full ml-2"
+          className="input input-bordered lg:max-w-xs w-full max-h-11 rounded-full ml-2"
         />
       </div>
-      <div class="navbar-center hidden lg:flex">
-        <ul class="menu menu-horizontal p-0">{menu}</ul>
+      <div className="navbar-center hidden lg:flex">
+        <ul className="menu menu-horizontal p-0">{menu}</ul>
       </div>
-      <div class="navbar-end">
+      <div className="navbar-end">
         {user ? (
           <>
             <button className="btn text-lg btn-ghost">
@@ -80,13 +77,13 @@ const Navbar = () => {
             <button className="btn text-lg btn-ghost">
               <FaFacebookMessenger />
             </button>
-            <div class="dropdown dropdown-left">
-              <label tabindex="0" class="btn btn-ghost m-1">
+            <div className="dropdown dropdown-left">
+              <label tabindex="0" className="btn btn-ghost m-1">
                 <img src={user.photoURL} className="rounded-full w-10" alt="" />
               </label>
               <ul
                 tabindex="0"
-                class="dropdown-content menu shadow bg-base-100 rounded-box w-56 p-4 leading-5"
+                className="dropdown-content menu shadow bg-base-100 rounded-box w-56 p-4 leading-5"
               >
                 <h1 className="font-semibold mb-2">{user.displayName}</h1>
                 <h1 className="mb-3">{user.email}</h1>
