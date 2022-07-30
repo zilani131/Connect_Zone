@@ -5,16 +5,38 @@ import { Route, Routes } from "react-router-dom";
 import Login from "./Component/Login";
 import Register from "./Component/Register";
 import RequireAuth from "./Pages/Auth/RequireAuth";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 function App() {
   return (
     <div>
       <Routes>
-        <Route path="/" element={<RequireAuth><Home /></RequireAuth>} />
+        <Route
+          path="/"
+          element={
+            <RequireAuth>
+              <Home />
+            </RequireAuth>
+          }
+        />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
       </Routes>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme={"dark"}
+      />
     </div>
-  )
-};
+  );
+}
 
 export default App;

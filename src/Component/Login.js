@@ -1,8 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
-    useAuthState,
+  useAuthState,
   useSignInWithEmailAndPassword,
-  useSignInWithGoogle,
 } from "react-firebase-hooks/auth";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate, useLocation } from "react-router-dom";
@@ -10,12 +9,12 @@ import auth from "../firebase.init";
 // import useToken from '../hooks/useToken';
 import Loading from "../Pages/Shared/Loading/Loading";
 import { FaEnvelope, FaKey } from "react-icons/fa";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const [signInWithEmailAndPassword, eUser, eLoading, error] =
     useSignInWithEmailAndPassword(auth);
-  const [signInWithGoogle, gUser, gLoading, gError] = useSignInWithGoogle(auth);
-  const [user, loading] = useAuthState(auth)
+  const [user, loading] = useAuthState(auth);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -30,7 +29,20 @@ const Login = () => {
     signInWithEmailAndPassword(data?.email, data?.password);
   };
   let from = location.state?.from?.pathname || "/";
-  let signInError;
+
+  useEffect(() => {
+    if (error) {
+      const newErrorMessage =
+        error?.message
+          .split("Firebase: Error (auth/")
+          .join("")
+          .split(").")
+          .join("")
+          .split("-")
+          .join(" ")
+      toast.error(newErrorMessage.toUpperCase());
+    }
+  }, [error]);
 
   if (loading) {
     return <Loading />;
@@ -38,13 +50,8 @@ const Login = () => {
   if (user) {
     navigate(from, { replace: true });
   }
-  if (error || gError) {
-    signInError = (
-      <p className="text-red-500">
-        <small>{error?.message}</small>
-      </p>
-    );
-  }
+
+
   return (
     <div className="bg-login">
       <div className="flex max-h-screen justify-around items-center h-screen lg:px-60">
@@ -64,7 +71,7 @@ const Login = () => {
                   <input
                     type="email"
                     placeholder="Email"
-                    className="input input-bordered w-full max-w-xs bg-[#0B0F2C]"
+                    className="input input-bordered w-full max-w-xs bg-[#0B0F2C] text-white"
                     {...register("email", {
                       required: {
                         value: true,
@@ -79,12 +86,12 @@ const Login = () => {
                 </label>
                 <label className="label">
                   {errors?.email?.type === "required" && (
-                    <span className="label-text-alt text-red-500">
+                    <span className="label-text-alt text-red-400 text-base font-semibold">
                       {errors?.email?.message}
                     </span>
                   )}
                   {errors?.email?.type === "pattern" && (
-                    <span className="label-text-alt text-red-500">
+                    <span className="label-text-alt text-red-400 text-base font-semibold">
                       {errors?.email?.message}
                     </span>
                   )}
@@ -98,7 +105,7 @@ const Login = () => {
                   <input
                     type="password"
                     placeholder="Password"
-                    className="input input-bordered w-full max-w-xs bg-[#0B0F2C]"
+                    className="input input-bordered w-full max-w-xs bg-[#0B0F2C] text-white"
                     {...register("password", {
                       required: {
                         value: true,
@@ -113,12 +120,12 @@ const Login = () => {
                 </label>
                 <label className="label">
                   {errors?.password?.type === "required" && (
-                    <span className="label-text-alt text-red-500">
+                    <span className="label-text-alt text-red-400 text-base font-semibold">
                       {errors?.password?.message}
                     </span>
                   )}
                   {errors?.password?.type === "minLength" && (
-                    <span className="label-text-alt text-red-500">
+                    <span className="label-text-alt text-red-400 text-base font-semibold">
                       {errors?.password?.message}
                     </span>
                   )}
@@ -143,19 +150,7 @@ const Login = () => {
                 type="submit"
                 value="Login"
               />
-              {signInError}
             </form>
-            <div className="divider text-white before:bg-[#0B0F2C] after:bg-[#0B0F2C]">OR</div>
-            <button
-              onClick={() => signInWithGoogle()}
-              className="border-2 transition-all duration-300 border-[#0B0F2C] rounded-full py-2 bg-[#0B0F2C] hover:bg-transparent hover:text-gray-800 w-14 mx-auto"
-            >
-              <img
-                className="w-9 mx-auto"
-                src="https://img.icons8.com/fluency/344/google-logo.png"
-                alt=""
-              />
-            </button>
           </div>
         </div>
       </div>
