@@ -47,10 +47,10 @@ const Login = () => {
   }
   return (
     <div className="bg-login">
-      <div className="flex max-h-screen justify-around items-center h-screen px-60">
+      <div className="flex max-h-screen justify-around items-center h-screen lg:px-60">
         <div className="w-96 backdrop-blur-3xl rounded-xl bg-[#ffffff21] shadow-xl relative">
           <img
-            className="absolute -top-10 left-[40%] w-20 bg-[#00264D] p-4 rounded-full"
+            className="absolute -top-10 mx-auto left-0 right-0 w-20 bg-[#00264D] p-4 rounded-full"
             src="https://i.ibb.co/Rg4TL4y/user.png"
             alt=""
           />
