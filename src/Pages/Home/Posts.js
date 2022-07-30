@@ -10,7 +10,7 @@ const Posts = () => {
 
   useEffect(() => {
     setPostsLoading(true);
-    fetch("https://tranquil-plains-69980.herokuapp.com/news")
+    fetch("https://tranquil-plains-69980.herokuapp.com/posts")
       .then((res) => res.json())
       .then((data) => {
         setPosts(data);
