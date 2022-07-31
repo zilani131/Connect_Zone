@@ -2,7 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaArrowLeft } from "react-icons/fa";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useCreateUserWithEmailAndPassword, useUpdateProfile } from "react-firebase-hooks/auth";
+import {
+  useCreateUserWithEmailAndPassword,
+  useUpdateProfile,
+} from "react-firebase-hooks/auth";
 import auth from "../firebase.init";
 import { toast } from "react-toastify";
 import Loading from "../Pages/Shared/Loading/Loading";
@@ -23,21 +26,21 @@ const Register = () => {
 
   useEffect(() => {
     if (error || updateError) {
-      const newErrorMessage = error?.message
-        .split("Firebase: Error (auth/")
-        .join("")
-        .split(").")
-        .join("")
-        .split("-")
-        .join(" ")
-        ||
+      const newErrorMessage =
+        error?.message
+          .split("Firebase: Error (auth/")
+          .join("")
+          .split(").")
+          .join("")
+          .split("-")
+          .join(" ") ||
         updateError?.message
-        .split("Firebase: Error (auth/")
-        .join("")
-        .split(").")
-        .join("")
-        .split("-")
-        .join(" ")
+          .split("Firebase: Error (auth/")
+          .join("")
+          .split(").")
+          .join("")
+          .split("-")
+          .join(" ");
       toast.error(newErrorMessage.toUpperCase());
     }
   }, [error, updateError]);
@@ -88,10 +91,13 @@ const Register = () => {
     }
   };
 
-
   return (
-    <div className="bg-login">
+    <div className="register">
       <div className="flex max-h-screen justify-around items-center h-screen lg:px-60">
+        <div>
+          <h2 className="text-blue-600 text-5xl font-bold">Connect zone</h2>
+          <p className="font-semibold">Let's connect with business world</p>
+        </div>
         <div className="backdrop-blur-3xl rounded-xl bg-[#ffffff21] shadow-xl relative">
           <img
             className="absolute -top-10 mx-auto left-0 right-0 w-20 bg-[#00264D] p-4 rounded-full"
@@ -266,7 +272,7 @@ const Register = () => {
 
               <Link
                 to="/login"
-                className="text-[#e7e7e7] text-center text-sm link-hover ml-2"
+                className="text-[#00264D] text-center text-sm link-hover ml-2"
               >
                 <FaArrowLeft className="inline" /> Back to login
               </Link>

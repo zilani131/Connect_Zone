@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import {
-    useAuthState,
-    useSignInWithEmailAndPassword
+  useAuthState,
+  useSignInWithEmailAndPassword,
 } from "react-firebase-hooks/auth";
 import { useForm } from "react-hook-form";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -31,14 +31,13 @@ const Login = () => {
 
   useEffect(() => {
     if (error) {
-      const newErrorMessage =
-        error?.message
-          .split("Firebase: Error (auth/")
-          .join("")
-          .split(").")
-          .join("")
-          .split("-")
-          .join(" ")
+      const newErrorMessage = error?.message
+        .split("Firebase: Error (auth/")
+        .join("")
+        .split(").")
+        .join("")
+        .split("-")
+        .join(" ");
       toast.error(newErrorMessage.toUpperCase());
     }
   }, [error]);
@@ -50,10 +49,14 @@ const Login = () => {
     navigate(from, { replace: true });
   }
 
-
   return (
-    <div className="bg-login">
+    <div className="">
       <div className="flex max-h-screen justify-around items-center h-screen lg:px-60">
+        <div>
+          <h2 className="text-blue-600 text-5xl font-bold">Connect zone</h2>
+          <p className="font-semibold">Let's connect with business world</p>
+        </div>
+
         <div className="w-96 backdrop-blur-3xl rounded-xl bg-[#ffffff21] shadow-xl relative">
           <img
             className="absolute -top-10 mx-auto left-0 right-0 w-20 bg-[#00264D] p-4 rounded-full"
@@ -133,13 +136,13 @@ const Login = () => {
               <div className="flex justify-between">
                 <Link
                   to="/register"
-                  className="text-[#e7e7e7] text-center text-sm link-hover"
+                  className="text-[#0B0F2C] text-center text-sm link-hover"
                 >
                   Create a New Account
                 </Link>
                 <Link
                   to="/reset-password"
-                  className="text-[#e7e7e7] text-center text-sm link-hover"
+                  className="text-[#0B0F2C] text-center text-sm link-hover"
                 >
                   Forgot Password?
                 </Link>

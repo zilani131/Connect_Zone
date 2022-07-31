@@ -46,7 +46,8 @@ const Navbar = () => {
     </li>
   );
   return (
-    <div className="navbar bg-base-100 mx-auto lg:px-32 shadow-sm  z-10">
+    <div className="navbar">
+      <div className="navbar bg-base-100 mx-auto lg:px-32 shadow-sm  z-10 fixed">
       <div className="navbar-start">
         <div className="dropdown">
           <label tabindex="0" className="btn btn-ghost lg:hidden">
@@ -108,6 +109,7 @@ const Navbar = () => {
           </Link>
         )}
       </div>
+    </div>
     </div>
   );
 };
