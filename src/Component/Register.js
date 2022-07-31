@@ -1,16 +1,91 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaArrowLeft } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useCreateUserWithEmailAndPassword, useUpdateProfile } from "react-firebase-hooks/auth";
+import auth from "../firebase.init";
+import { toast } from "react-toastify";
+import Loading from "../Pages/Shared/Loading/Loading";
+import axios from "axios";
 
 const Register = () => {
+  const [createUserWithEmailAndPassword, user, loading, error] =
+    useCreateUserWithEmailAndPassword(auth);
+  const [existedUser, setExistedUser] = useState(false);
+  const [updateProfile, updating, updateError] = useUpdateProfile(auth);
+  const navigate = useNavigate();
+  const location = useLocation();
   const {
     register,
     formState: { errors },
     handleSubmit,
   } = useForm();
-  const onSubmit = (data) => {
-    console.log(data);
+
+  useEffect(() => {
+    if (error || updateError) {
+      const newErrorMessage = error?.message
+        .split("Firebase: Error (auth/")
+        .join("")
+        .split(").")
+        .join("")
+        .split("-")
+        .join(" ")
+        ||
+        updateError?.message
+        .split("Firebase: Error (auth/")
+        .join("")
+        .split(").")
+        .join("")
+        .split("-")
+        .join(" ")
+      toast.error(newErrorMessage.toUpperCase());
+    }
+  }, [error, updateError]);
+
+  if (loading) {
+    return <Loading />;
+  }
+
+  let from = location.state?.from?.pathname || "/";
+
+  if (user) {
+    navigate(from, { replace: true });
+  }
+
+  const onSubmit = async (data) => {
+    const displayName = data.firstName + " " + data.lastName;
+    const user = {
+      firstName: data.firstName,
+      lastName: data.lastName,
+      displayName: displayName,
+      email: data.email,
+      dateOfBirth: data.dateOfBirth,
+      friends: [],
+      img: "https://i.ibb.co/Rg4TL4y/user.png",
+    };
+    await axios
+      .get("https://tranquil-plains-69980.herokuapp.com/users")
+      .then((res) => {
+        res.data.forEach((user) => {
+          if (user.email === data.email) {
+            setExistedUser(true);
+          }
+        });
+      });
+    if (!existedUser) {
+      await createUserWithEmailAndPassword(data.email, data.password);
+      await updateProfile({ displayName });
+      await axios
+        .post("https://tranquil-plains-69980.herokuapp.com/user", user)
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      toast.error("User already existed");
+    }
   };
 
 

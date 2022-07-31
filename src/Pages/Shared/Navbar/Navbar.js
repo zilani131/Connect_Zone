@@ -1,8 +1,12 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import {
-  FaFacebookMessenger, FaHome, FaRegBell, FaStore,
-  FaUsers
+  FaFacebookMessenger,
+  FaHome,
+  FaRegBell,
+  FaStore,
+  FaUsers,
 } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import auth from "../../../firebase.init";
@@ -11,12 +15,22 @@ import Loading from "../Loading/Loading";
 
 const Navbar = () => {
   const [user, loading] = useAuthState(auth);
+  const [userData, setUserData] = useState({});
+  const [userDataLoading, setUserDataLoading] = useState(true);
 
-  if (loading) {
+  useEffect(() => {
+    if (user) {
+      setUserDataLoading(true);
+      axios.get(`http://localhost:5000/user/${user.email}`).then((res) => {
+        setUserData(res.data);
+        setUserDataLoading(false);
+      });
+    }
+  },[user]);
+
+  if (loading || userDataLoading) {
     return <Loading />;
   }
-
-  console.log(user);
 
   const menu = (
     <li className="text-2xl">
@@ -77,26 +91,13 @@ const Navbar = () => {
             <button className="btn text-lg btn-ghost">
               <FaFacebookMessenger />
             </button>
-            <div className="dropdown dropdown-left">
-              <label tabindex="0" className="btn btn-ghost m-1">
-                <img src={user.photoURL} className="rounded-full w-10" alt="" />
-              </label>
-              <ul
-                tabindex="0"
-                className="dropdown-content menu shadow bg-base-100 rounded-box w-56 p-4 leading-5"
-              >
-                <h1 className="font-semibold mb-2">{user.displayName}</h1>
-                <h1 className="mb-3">{user.email}</h1>
-                <button
-                  className="btn btn-primary text-white"
-                  onClick={() => {
-                    auth.signOut();
-                  }}
-                >
-                  Log Out
-                </button>
-              </ul>
-            </div>
+            <Link to="/">
+              <img
+                className="w-10 bg-[#0B0F2C] p-2 rounded-full"
+                src={userData.img}
+                alt=""
+              />
+            </Link>
           </>
         ) : (
           <Link

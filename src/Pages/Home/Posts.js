@@ -2,9 +2,8 @@ import React, { useEffect, useState } from "react";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import Post from "./Post";
-import ContentLoader from "react-content-loader";
 
-const Posts = () => {
+const Posts = ({isPosted}) => {
   const [posts, setPosts] = useState([]);
   const [postsLoading, setPostsLoading] = useState(false);
 
@@ -16,7 +15,7 @@ const Posts = () => {
         setPosts(data);
         setPostsLoading(false);
       });
-  }, []);
+  }, [isPosted]);
 
   if (postsLoading) {
     return (
@@ -65,10 +64,8 @@ const Posts = () => {
     );
   }
 
-  console.log(postsLoading);
-
   return (
-    <div className="posts">
+    <div className="posts flex flex-col-reverse">
       {posts ? (
         posts.map((post) => <Post key={post._id} post={post} />)
       ) : (

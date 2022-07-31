@@ -6,7 +6,6 @@ import {
 import { useForm } from "react-hook-form";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import auth from "../firebase.init";
-// import useToken from '../hooks/useToken';
 import { FaEnvelope, FaKey } from "react-icons/fa";
 import { toast } from "react-toastify";
 import Loading from "../Pages/Shared/Loading/Loading";
