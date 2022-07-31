@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-const Comments = ({ isCommented, _id, open }) => {
+const Comments = ({ isCommented, _id }) => {
   const [comments, setComments] = useState([]);
   useEffect(() => {
     axios
       .get(`http://localhost:5000/comments/${_id}`)
       .then((res) => setComments(res.data));
-  }, [isCommented, _id, open]);
+  }, [isCommented, _id]);
   return (
     <div className="comments">
       {comments?.map((comment, index) => (

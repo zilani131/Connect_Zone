@@ -13,6 +13,7 @@ const Post = ({ post }) => {
   const [userData, setUserData] = useState({});
   const [isCommented, setIsCommented] = useState(false);
   const [isLiked, setIsLiked] = useState(true);
+  const [open, setOpen] = useState(false);
 
   axios
     .get(`http://localhost:5000/user/${user.email}`)
@@ -35,16 +36,16 @@ const Post = ({ post }) => {
     await axios.post(`http://localhost:5000/comment`, comment).then((res) => {
       if (res.status === 200) {
         e.target.reset();
-        setIsCommented(true);
+        setIsCommented(!isCommented);
       }
     });
   };
 
   const updateLike = async (id) => {
     setIsLiked(!isLiked);
-      await axios.put(`http://localhost:5000/like/${id}`, {
-        postLikes: isLiked ? postLikes + 1 : postLikes - 1,
-      })
+    await axios.put(`http://localhost:5000/like/${id}`, {
+      postLikes: isLiked ? postLikes + 1 : postLikes - 1,
+    });
     console.log(isLiked);
   };
 
@@ -93,14 +94,17 @@ const Post = ({ post }) => {
             {/* <span className="ml-1">{postLikes}</span> */}
           </button>
 
-          <button className="hover:bg-gray-300 rounded-lg w-full transition-all duration-200 py-1 font-semibold">
+          <button
+            className="hover:bg-gray-300 rounded-lg w-full transition-all duration-200 py-1 font-semibold"
+            onClick={() => setOpen(!open)}
+          >
             <FaCommentAlt className="inline" />
             <span className="ml-1">Comment</span>
           </button>
         </div>
         <hr />
 
-        <div className="comment-section">
+        <div className={open ? "comment-section" : "hidden"}>
           <form className="comment flex" onSubmit={handleSubmit(onSubmit)}>
             <img
               className="w-12 bg-[#0B0F2C] p-2 rounded-full"
