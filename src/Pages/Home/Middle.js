@@ -104,7 +104,7 @@ const Middle = () => {
       </div>
 
       {/* <Posts/> */}
-      <Posts isPosted={isPosted} />
+      <Posts isPosted={isPosted} url={`http://localhost:5000/postsByFriends/${[userData.friends]}`}/>
 
       {/* Modal */}
       <div className="post-modal">

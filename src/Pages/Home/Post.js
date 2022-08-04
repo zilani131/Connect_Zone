@@ -5,6 +5,7 @@ import auth from "../../firebase.init";
 import axios from "axios";
 import { useForm } from "react-hook-form";
 import Comments from "./Comments";
+import { useParams } from "react-router-dom";
 
 const Post = ({ post }) => {
   const { _id, userName, userImage, time, postCaption, postImages, postLikes } =
@@ -14,9 +15,10 @@ const Post = ({ post }) => {
   const [isCommented, setIsCommented] = useState(false);
   const [isLiked, setIsLiked] = useState(true);
   const [open, setOpen] = useState(false);
+  const { email } = useParams();
 
   axios
-    .get(`http://localhost:5000/user/${user.email}`)
+    .get(`http://localhost:5000/user/${user ? user.email : email}`)
     .then((res) => setUserData(res.data));
   const { img } = userData;
 
@@ -50,7 +52,7 @@ const Post = ({ post }) => {
   };
 
   return (
-    <div className="post card max-w-3xl w-full bg-white shadow-xl mt-5">
+    <div className="post card max-w-3xl w-full bg-white shadow-xl mt-5 mx-auto">
       <div className="card-body">
         <div className="post-header flex items-center">
           <img
@@ -104,26 +106,30 @@ const Post = ({ post }) => {
         </div>
         <hr />
 
-        <div className={open ? "comment-section" : "hidden"}>
-          <form className="comment flex" onSubmit={handleSubmit(onSubmit)}>
-            <img
-              className="w-12 bg-[#0B0F2C] p-2 rounded-full"
-              src={img}
-              alt=""
-            />
-            <input
-              type="text"
-              placeholder="Write a comment..."
-              className="input w-full ml-2 bg-gray-200 rounded-full"
-              style={errors.commentText && { borderColor: "red" }}
-              {...register("commentText", {
-                required: true,
-              })}
-            />
-          </form>
-          {/* All comments */}
-          <Comments isCommented={isCommented} _id={_id} />
-        </div>
+        {user ? (
+          <div className={open ? "comment-section" : "hidden"}>
+            <form className="comment flex" onSubmit={handleSubmit(onSubmit)}>
+              <img
+                className="w-12 bg-[#0B0F2C] p-2 rounded-full"
+                src={img}
+                alt=""
+              />
+              <input
+                type="text"
+                placeholder="Write a comment..."
+                className="input w-full ml-2 bg-gray-200 rounded-full"
+                style={errors.commentText && { borderColor: "red" }}
+                {...register("commentText", {
+                  required: true,
+                })}
+              />
+            </form>
+            {/* All comments */}
+            <Comments isCommented={isCommented} _id={_id} />
+          </div>
+        ) : (
+          <p>Please login to comment</p>
+        )}
       </div>
     </div>
   );

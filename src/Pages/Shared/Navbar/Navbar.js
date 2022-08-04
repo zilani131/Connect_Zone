@@ -28,10 +28,6 @@ const Navbar = () => {
     }
   },[user]);
 
-  if (loading || userDataLoading) {
-    return <Loading />;
-  }
-
   const menu = (
     <li className="text-2xl">
       <Link to="/" title="Home">
@@ -92,7 +88,7 @@ const Navbar = () => {
             <button className="btn text-lg btn-ghost">
               <FaFacebookMessenger />
             </button>
-            <Link to="/">
+            <Link to={`/user/${userData.email}`}>
               <img
                 className="w-10 bg-[#0B0F2C] p-2 rounded-full"
                 src={userData.img}

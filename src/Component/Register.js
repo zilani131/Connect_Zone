@@ -61,9 +61,13 @@ const Register = () => {
       firstName: data.firstName,
       lastName: data.lastName,
       displayName: displayName,
+      slug:
+        displayName.toLowerCase().replace(/\s/g, "-") +
+        "-" +
+        Math.random() * 100,
       email: data.email,
       dateOfBirth: data.dateOfBirth,
-      friends: [],
+      friends: [data.email],
       img: "https://i.ibb.co/Rg4TL4y/user.png",
     };
     await axios
@@ -81,7 +85,9 @@ const Register = () => {
       await axios
         .post("https://tranquil-plains-69980.herokuapp.com/user", user)
         .then((res) => {
-          console.log(res);
+          if (res.status === 200) {
+            window.location.reload();
+          }
         })
         .catch((err) => {
           console.log(err);

@@ -7,6 +7,8 @@ import Register from "./Component/Register";
 import RequireAuth from "./Pages/Auth/RequireAuth";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Profile from "./Pages/Profile/Profile";
+import FriendRequests from "./Pages/Profile/FriendRequests";
 
 function App() {
   return (
@@ -17,6 +19,15 @@ function App() {
           element={
             <RequireAuth>
               <Home />
+            </RequireAuth>
+          }
+        />
+        <Route path="/user/:email" element={<Profile />} />
+        <Route
+          path="/user/:email/requests"
+          element={
+            <RequireAuth>
+              <FriendRequests />
             </RequireAuth>
           }
         />

@@ -3,19 +3,19 @@ import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import Post from "./Post";
 
-const Posts = ({isPosted}) => {
+const Posts = ({isPosted, url}) => {
   const [posts, setPosts] = useState([]);
   const [postsLoading, setPostsLoading] = useState(false);
 
   useEffect(() => {
     setPostsLoading(true);
-    fetch("https://tranquil-plains-69980.herokuapp.com/posts")
+    fetch(url)
       .then((res) => res.json())
       .then((data) => {
         setPosts(data);
         setPostsLoading(false);
       });
-  }, [isPosted]);
+  }, [isPosted, url]);
 
   if (postsLoading) {
     return (
