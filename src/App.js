@@ -10,6 +10,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Profile from "./Pages/Profile/Profile";
 import FriendRequests from "./Pages/Profile/FriendRequests";
 import Edit from "./Pages/Profile/Edit";
+import ConnectedPeople from "./Pages/ConnectedPeople/ConnectedPeople";
 
 function App() {
   return (
@@ -37,6 +38,14 @@ function App() {
           element={
             <RequireAuth>
               <Edit />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/user/friends"
+          element={
+            <RequireAuth>
+              <ConnectedPeople />
             </RequireAuth>
           }
         />

@@ -34,14 +34,14 @@ const LeftSide = () => {
           />
           <h4 className="ml-2 font-semibold">{user.displayName}</h4>
         </Link>
-        <div className="child flex items-center hover:bg-slate-200 cursor-pointer p-2 rounded-lg transition-all duration-200">
+        <Link to="/user/friends" className="child flex items-center hover:bg-slate-200 cursor-pointer p-2 rounded-lg transition-all duration-200">
           <img
             className="rounded-full w-11"
             src="https://i.ibb.co/ZM1d7R5/people.png"
             alt=""
           />
           <h4 className="ml-2 font-semibold">Connected Peoples</h4>
-        </div>
+        </Link>
         <div className="child flex items-center hover:bg-slate-200 cursor-pointer p-2 rounded-lg transition-all duration-200">
           <img
             className="rounded-full w-11"
