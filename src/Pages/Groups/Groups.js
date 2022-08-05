@@ -84,7 +84,6 @@ const Groups = () => {
                 <Link
                   to={`/group/${otherGroup.groupSlug}`}
                   className="card w-full max-w-xl mt-3 cursor-pointer bg-white mx-auto"
-                  style={otherGroup.groupCreatorEmail === user.email && {display: 'none'}}
                 >
                   <div className="friend-info flex py-3 px-10">
                     <img
