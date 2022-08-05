@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
 import axios from "axios";
+import React, { useEffect, useState } from "react";
 
 const Comments = ({ isCommented, _id }) => {
   const [comments, setComments] = useState([]);
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/comments/${_id}`)
+      .get(`https://tranquil-plains-69980.herokuapp.com/comments/${_id}`)
       .then((res) => setComments(res.data));
   }, [isCommented, _id]);
   return (

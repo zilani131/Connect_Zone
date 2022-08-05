@@ -2,11 +2,14 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useForm } from "react-hook-form";
+import { useParams } from "react-router-dom";
 import auth from "../../firebase.init";
+import Posts from "../Home/Posts";
 import Loading from "../Shared/Loading/Loading";
-import Posts from "./Posts";
+import GroupHeader from "./GroupHeader";
 
-const Middle = () => {
+const Group = () => {
+  const { groupSlug } = useParams();
   const [user, loading] = useAuthState(auth);
   const [userData, setUserData] = useState({});
   const [userDataLoading, setUserDataLoading] = useState(true);
@@ -37,7 +40,7 @@ const Middle = () => {
 
   const onSubmit = async (data, e) => {
     await axios
-      .post("https://tranquil-plains-69980.herokuapp.com/post", {
+      .post(`https://tranquil-plains-69980.herokuapp.com/group/${groupSlug}`, {
         userName: user.displayName,
         userImage: userData.img,
         userEmail: user.email,
@@ -67,13 +70,13 @@ const Middle = () => {
     if (user) {
       setUserDataLoading(true);
       axios
-        .get(`https://tranquil-plains-69980.herokuapp.com/user/${user.email}`)
+        .get(`https://tranquil-plains-69980.herokuapp.com/user/${user?.email}`)
         .then((res) => {
           setUserData(res.data);
           setUserDataLoading(false);
         });
     }
-  }, [user]);
+  }, [groupSlug, user]);
 
   if (loading || userDataLoading) {
     return <Loading />;
@@ -102,31 +105,33 @@ const Middle = () => {
   };
 
   return (
-    <div className="middle p-5 m-auto rounded-lg mt-5 max-w-3xl w-full">
-      {/* Post form */}
-      <div className="post-form bg-white flex justify-center rounded-xl p-10 shadow-sm">
-        <img
-          className="w-10 h-10 object-cover rounded-full"
-          src={userData?.img}
-          alt=""
-        />
-        <label
-          for="my-modal"
-          className="cursor-pointer pl-5 relative bg-gray-200 rounded-full w-full ml-4 modal-button"
-        >
-          <span className="absolute top-1/4">
-            What are you thinking, {user.displayName.split(" ")[0]}?
-          </span>
-        </label>
-      </div>
+    <div className="bg-white">
+      <GroupHeader groupSlug={groupSlug} />
 
-      {/* <Posts/> */}
-      <Posts
-        isPosted={isPosted}
-        url={`https://tranquil-plains-69980.herokuapp.com/postsByFriends/${[
-          userData?.friends,
-        ]}`}
-      />
+      <div className="lg:px-60">
+        {/* Post form */}
+        <div className="post-form bg-white flex justify-center rounded-xl p-10 shadow-sm">
+          <img
+            className="w-10 h-10 object-cover rounded-full"
+            src={userData?.img}
+            alt=""
+          />
+          <label
+            for="my-modal"
+            className="cursor-pointer pl-5 relative bg-gray-200 rounded-full w-full ml-4 modal-button"
+          >
+            <span className="absolute top-1/4">
+              What are you thinking, {user.displayName.split(" ")[0]}?
+            </span>
+          </label>
+        </div>
+
+        {/* <Posts/> */}
+        <Posts
+          isPosted={isPosted}
+          url={`https://tranquil-plains-69980.herokuapp.com/group/${groupSlug}/posts`}
+        />
+      </div>
 
       {/* Modal */}
       <div className="post-modal">
@@ -204,4 +209,4 @@ const Middle = () => {
   );
 };
 
-export default Middle;
+export default Group;
