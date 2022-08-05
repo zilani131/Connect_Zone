@@ -34,7 +34,7 @@ const Navbar = () => {
       <Link to="/" title="Home">
         <FaHome />
       </Link>
-      <Link to="/" title="Groups">
+      <Link to="/groups" title="Groups">
         <FaUsers />
       </Link>
       <Link to="/" title="Marketplace">
@@ -43,7 +43,7 @@ const Navbar = () => {
     </li>
   );
   return (
-    <div className="navbar">
+    <div className="navbar p-0">
       <div className="navbar bg-base-100 mx-auto lg:px-32 shadow-sm  z-10 fixed">
         <div className="navbar-start">
           <div className="dropdown">
@@ -78,7 +78,7 @@ const Navbar = () => {
           />
         </div>
         <div className="navbar-center hidden lg:flex">
-          <ul className="menu menu-horizontal p-0">{menu}</ul>
+          <ul className="menu menu-horizontal p-0">{user ? menu : ""}</ul>
         </div>
         <div className="navbar-end">
           {user ? (

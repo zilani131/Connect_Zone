@@ -11,6 +11,11 @@ import Profile from "./Pages/Profile/Profile";
 import FriendRequests from "./Pages/Profile/FriendRequests";
 import Edit from "./Pages/Profile/Edit";
 import ConnectedPeople from "./Pages/ConnectedPeople/ConnectedPeople";
+import Groups from "./Pages/Groups/Groups";
+import CreateNewGroup from "./Pages/Groups/CreateNewGroup";
+import Group from "./Pages/Groups/Group";
+import GroupAbout from "./Pages/Groups/GroupAbout";
+import GroupPosts from "./Pages/Groups/GroupPosts";
 
 function App() {
   return (
@@ -49,6 +54,25 @@ function App() {
             </RequireAuth>
           }
         />
+        <Route
+          path="/groups"
+          element={
+            <RequireAuth>
+              <Groups />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/group/new"
+          element={
+            <RequireAuth>
+              <CreateNewGroup />
+            </RequireAuth>
+          }
+        />
+        <Route path="/group/:groupSlug" element={<Group />} />
+        <Route path="/group/:groupSlug/about" element={<GroupAbout />} />
+        <Route path="/group/:groupSlug/members" element={<GroupPosts />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
       </Routes>

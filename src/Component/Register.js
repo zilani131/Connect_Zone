@@ -66,7 +66,7 @@ const Register = () => {
       email: data.email,
       dateOfBirth: data.dateOfBirth,
       friends: [data.email],
-      img: "https://i.ibb.co/Rg4TL4y/user.png",
+      img: "https://i.ibb.co/7SPmy5y/image.png",
     };
     await axios
       .get("https://tranquil-plains-69980.herokuapp.com/users")

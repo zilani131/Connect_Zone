@@ -15,7 +15,7 @@ const ConnectedPeople = () => {
   useEffect(() => {
     setCLoading(true);
     axios
-      .get(`http://localhost:5000/user/${user.email}/friends`)
+      .get(`https://tranquil-plains-69980.herokuapp.com/user/${user.email}/friends`)
       .then((res) => {
         setFriends(res.data);
         setCLoading(false);
