@@ -80,9 +80,6 @@ const GroupHeader = ({groupSlug}) => {
             <Link className="btn btn-ghost" to={`/group/${groupSlug}`}>
               Posts
             </Link>
-            {/* <Link className="btn btn-ghost" to={`/group/${groupSlug}/members`}>
-              Members
-            </Link> */}
           </ul>
             </div>
           </div>
