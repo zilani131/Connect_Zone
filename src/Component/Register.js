@@ -56,15 +56,13 @@ const Register = () => {
   }
 
   const onSubmit = async (data) => {
-    const displayName = data.firstName + " " + data.lastName;
+    const displayName = data.name;
     const user = {
-      firstName: data.firstName,
-      lastName: data.lastName,
       displayName: displayName,
       slug:
         displayName.toLowerCase().replace(/\s/g, "-") +
         "-" +
-        Math.random() * 100,
+        (Math.random() * 100).toFixed(0),
       email: data.email,
       dateOfBirth: data.dateOfBirth,
       friends: [data.email],
@@ -99,12 +97,12 @@ const Register = () => {
 
   return (
     <div className="register">
-      <div className="flex max-h-screen justify-around items-center h-screen lg:px-60">
+      <div className="flex max-h-screen justify-around items-center h-screen lg:px-60 lg:flex-row flex-col">
         <div>
           <h2 className="text-blue-600 text-5xl font-bold">Connect zone</h2>
           <p className="font-semibold">Let's connect with business world</p>
         </div>
-        <div className="backdrop-blur-3xl rounded-xl bg-[#ffffff21] shadow-xl relative">
+        <div className="backdrop-blur-3xl rounded-xl bg-[#ffffff21] shadow-xl relative w-full max-w-md">
           <img
             className="absolute -top-10 mx-auto left-0 right-0 w-20 bg-[#00264D] p-4 rounded-full"
             src="https://i.ibb.co/Rg4TL4y/user.png"
@@ -115,63 +113,24 @@ const Register = () => {
               onSubmit={handleSubmit(onSubmit)}
               className="mx-auto w-full mt-8"
             >
-              <div className="flex">
-                <div className="form-control mr-1">
-                  <input
-                    type="text"
-                    placeholder="First Name"
-                    className="input input-bordered w-full bg-[#0B0F2C] text-white"
-                    {...register("firstName", {
-                      required: {
-                        value: true,
-                        message: "First Name is Required",
-                      },
-                      maxLength: {
-                        value: 20,
-                        message: "First name must be less than 20 characters",
-                      },
-                      minLength: {
-                        value: 3,
-                        message: "First name must be greater than 3 characters",
-                      },
-                    })}
-                  />
-                  <label className="label">
-                    {errors?.firstName?.type === "required" && (
-                      <span className="label-text-alt text-red-400 text-base font-semibold">
-                        {errors?.firstName?.message}
-                      </span>
-                    )}
-                    {errors?.firstName?.type === "maxLength" && (
-                      <span className="label-text-alt text-red-400 text-base font-semibold">
-                        {errors?.firstName?.message}
-                      </span>
-                    )}
-                    {errors?.firstName?.type === "minLength" && (
-                      <span className="label-text-alt text-red-400 text-base font-semibold">
-                        {errors?.firstName?.message}
-                      </span>
-                    )}
-                  </label>
-                </div>
 
                 <div className="form-control">
                   <input
                     type="text"
-                    placeholder="Last Name"
+                    placeholder="Name"
                     className="input input-bordered w-full bg-[#0B0F2C] text-white"
-                    {...register("lastName", {
+                    {...register("name", {
                       required: {
                         value: true,
-                        message: "Last Name is Required",
+                        message: "Name is Required",
                       },
                       maxLength: {
                         value: 20,
-                        message: "Last name must be less than 20 characters",
+                        message: "Name must be less than 20 characters",
                       },
                       minLength: {
                         value: 3,
-                        message: "Last name must be greater than 3 characters",
+                        message: "Name must be greater than 3 characters",
                       },
                     })}
                   />
@@ -193,7 +152,6 @@ const Register = () => {
                     )}
                   </label>
                 </div>
-              </div>
 
               <div className="form-control mr-1">
                 <input

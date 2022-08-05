@@ -16,7 +16,7 @@ const Profile = () => {
 
   useEffect(() => {
     setUserDataLoading(true);
-    axios.get(`http://localhost:5000/user/${email}`).then((res) => {
+    axios.get(`https://tranquil-plains-69980.herokuapp.com/user/${email}`).then((res) => {
       setUserData(res.data);
       setUserDataLoading(false);
     });
@@ -40,7 +40,7 @@ const Profile = () => {
           </div>
         </div>
         <div className="posts mt-5">
-          <Posts url={`http://localhost:5000/posts/${email}`} />
+          <Posts url={`https://tranquil-plains-69980.herokuapp.com/posts/${email}`} />
         </div>
       </div>
     </div>

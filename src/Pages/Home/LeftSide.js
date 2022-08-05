@@ -3,6 +3,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import auth from "../../firebase.init";
 import axios from "axios";
 import Loading from "../Shared/Loading/Loading";
+import { Link } from "react-router-dom";
 
 const LeftSide = () => {
   const [user, loading] = useAuthState(auth);
@@ -25,14 +26,14 @@ const LeftSide = () => {
   return (
     <div className="left-side pt-5 bg-white pl-4 w-2/6 lg:block hidden">
       <div className="fixed w-1/6">
-        <div className="child flex items-center hover:bg-slate-200 cursor-pointer p-2 rounded-lg transition-all duration-200">
+        <Link to={`/user/${user.email}`} className="child flex items-center hover:bg-slate-200 cursor-pointer p-2 rounded-lg transition-all duration-200">
           <img
-            className="w-10 bg-[#0B0F2C] p-2 rounded-full"
+            className="w-10 h-10 object-cover rounded-full"
             src={userData.img}
             alt=""
           />
           <h4 className="ml-2 font-semibold">{user.displayName}</h4>
-        </div>
+        </Link>
         <div className="child flex items-center hover:bg-slate-200 cursor-pointer p-2 rounded-lg transition-all duration-200">
           <img
             className="rounded-full w-11"

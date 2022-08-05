@@ -9,6 +9,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Profile from "./Pages/Profile/Profile";
 import FriendRequests from "./Pages/Profile/FriendRequests";
+import Edit from "./Pages/Profile/Edit";
 
 function App() {
   return (
@@ -28,6 +29,14 @@ function App() {
           element={
             <RequireAuth>
               <FriendRequests />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/user/:email/edit"
+          element={
+            <RequireAuth>
+              <Edit />
             </RequireAuth>
           }
         />

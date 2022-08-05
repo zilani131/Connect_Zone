@@ -1,11 +1,11 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { Link, useParams } from "react-router-dom";
-import auth from "../../firebase.init";
-import { toast } from "react-toastify";
-import Loading from "../Shared/Loading/Loading";
 import { FaCheckCircle } from "react-icons/fa";
+import { Link, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
+import auth from "../../firebase.init";
+import Loading from "../Shared/Loading/Loading";
 
 const ProfileHeader = () => {
   const { email } = useParams();
@@ -17,16 +17,16 @@ const ProfileHeader = () => {
 
   useEffect(() => {
     setUserDataLoading(true);
-    axios.get(`http://localhost:5000/user/${email}`).then((res) => {
+    axios.get(`https://tranquil-plains-69980.herokuapp.com/user/${email}`).then((res) => {
       setUserData(res.data);
       setUserDataLoading(false);
     });
   }, [email, user]);
 
   useEffect(() => {
-    if (userData.friends) {
-      for (let i = 0; i < userData.friends.length; i++) {
-        if (userData.friends[i] === user.email) {
+    if (userData?.friends) {
+      for (let i = 0; i < userData?.friends.length; i++) {
+        if (userData?.friends[i] === user?.email) {
           return setAlreadyFriend(true);
         }
       }
@@ -36,11 +36,11 @@ const ProfileHeader = () => {
   const sendFriendRequest = async () => {
     if (user) {
       await axios
-        .get(`http://localhost:5000/user/${user.email}`)
+        .get(`https://tranquil-plains-69980.herokuapp.com/user/${user.email}`)
         .then((res) => {
           if (res.status === 200) {
             axios
-              .post(`http://localhost:5000/friendRequest`, {
+              .post(`https://tranquil-plains-69980.herokuapp.com/friendRequest`, {
                 senderName: user.displayName,
                 senderImage: res.data.img,
                 senderEmail: user.email,
@@ -61,7 +61,7 @@ const ProfileHeader = () => {
 
   if (user) {
     axios
-      .get(`http://localhost:5000/friendRequest/${user.email}/${email}`)
+      .get(`https://tranquil-plains-69980.herokuapp.com/friendRequest/${user.email}/${email}`)
       .then((res) => {
         if (res.status === 200) {
           if (res.data.confirmed === false) {
@@ -81,23 +81,23 @@ const ProfileHeader = () => {
         <div className="left-side flex">
           <div className="profile-header-image">
             <img
-              className="w-24 rounded-full"
-              src={userData.img}
+              className="w-24 h-24 object-cover rounded-full"
+              src={userData?.img}
               alt="profile"
             />
           </div>
           <div className="profile-header-info ml-5">
             <div className="profile-header-info-name text-3xl font-semibold">
-              {userData.displayName}
+              {userData?.displayName}
             </div>
-            <div className="profile-header-info-email">{userData.email}</div>
+            <div className="profile-header-info-email">{userData?.email}</div>
           </div>
         </div>
         <div className="right-side">
           {user?.email === email ? (
             <Link
               className="btn btn-primary text-white px-12 rounded-full"
-              to="/profile/edit"
+              to={`/user/${user.email}/edit`}
             >
               Edit Profile
             </Link>

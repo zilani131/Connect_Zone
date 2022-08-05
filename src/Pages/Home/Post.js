@@ -1,15 +1,24 @@
+import axios from "axios";
 import React, { useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { FaCommentAlt, FaThumbsUp } from "react-icons/fa";
-import auth from "../../firebase.init";
-import axios from "axios";
 import { useForm } from "react-hook-form";
+import { FaCommentAlt, FaThumbsUp } from "react-icons/fa";
+import { Link, useParams } from "react-router-dom";
+import auth from "../../firebase.init";
 import Comments from "./Comments";
-import { useParams } from "react-router-dom";
 
 const Post = ({ post }) => {
-  const { _id, userName, userImage, time, postCaption, postImages, postLikes } =
-    post;
+  const {
+    _id,
+    userName,
+    userEmail,
+    userImage,
+    time,
+    postCaption,
+    postImages,
+    postLikes,
+    reason,
+  } = post;
   const [user] = useAuthState(auth);
   const [userData, setUserData] = useState({});
   const [isCommented, setIsCommented] = useState(false);
@@ -18,7 +27,11 @@ const Post = ({ post }) => {
   const { email } = useParams();
 
   axios
-    .get(`http://localhost:5000/user/${user ? user.email : email}`)
+    .get(
+      `https://tranquil-plains-69980.herokuapp.com/user/${
+        user ? user.email : email
+      }`
+    )
     .then((res) => setUserData(res.data));
   const { img } = userData;
 
@@ -35,17 +48,19 @@ const Post = ({ post }) => {
       commentUserEmail: user.email,
       commentText: data.commentText,
     };
-    await axios.post(`http://localhost:5000/comment`, comment).then((res) => {
-      if (res.status === 200) {
-        e.target.reset();
-        setIsCommented(!isCommented);
-      }
-    });
+    await axios
+      .post(`https://tranquil-plains-69980.herokuapp.com/comment`, comment)
+      .then((res) => {
+        if (res.status === 200) {
+          e.target.reset();
+          setIsCommented(!isCommented);
+        }
+      });
   };
 
   const updateLike = async (id) => {
     setIsLiked(!isLiked);
-    await axios.put(`http://localhost:5000/like/${id}`, {
+    await axios.put(`https://tranquil-plains-69980.herokuapp.com/like/${id}`, {
       postLikes: isLiked ? postLikes + 1 : postLikes - 1,
     });
     console.log(isLiked);
@@ -55,13 +70,20 @@ const Post = ({ post }) => {
     <div className="post card max-w-3xl w-full bg-white shadow-xl mt-5 mx-auto">
       <div className="card-body">
         <div className="post-header flex items-center">
-          <img
-            className="w-10 bg-[#0B0F2C] p-2 rounded-full"
-            src={userImage}
-            alt=""
-          />
+          <Link to={`/user/${userEmail}`}>
+            <img
+              className="w-10 h-10 object-cover rounded-full hover:border-gray-400 hover:border-2"
+              src={userImage}
+              alt=""
+            />
+          </Link>
           <div className="post-header-info flex flex-col ml-2">
-            <h4 className="font-semibold">{userName}</h4>
+            <Link
+              to={`/user/${userEmail}`}
+              className="font-semibold link-hover"
+            >
+              {userName}
+            </Link>
             <span className="text-xs link-hover cursor-pointer text-gray-400">
               {time}
             </span>
@@ -70,16 +92,22 @@ const Post = ({ post }) => {
 
         <div className="post-content py-1">
           <p className="mb-2 ml-2">{postCaption}</p>
-          {postImages?.map((image, index) => {
-            return (
-              <img
-                key={index}
-                className="w-full rounded-lg"
-                src={image}
-                alt=""
-              />
-            );
-          })}
+          <div className="grid grid-cols-2 justify-center">
+            {postImages?.map((image, index) => {
+              return (
+                <img
+                  key={index}
+                  className={
+                    reason === "profilePicture"
+                      ? "w-[60%] object-cover mx-auto rounded-full col-span-2"
+                      : "rounded-lg w-[95%] m-2 object-cover"
+                  }
+                  src={image}
+                  alt=""
+                />
+              );
+            })}
+          </div>
         </div>
         <hr />
         <div className="flex justify-around">

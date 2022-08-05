@@ -1,16 +1,17 @@
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import auth from "../../firebase.init";
-import Posts from "./Posts";
-import axios from "axios";
-import Loading from "../Shared/Loading/Loading";
 import { useForm } from "react-hook-form";
+import auth from "../../firebase.init";
+import Loading from "../Shared/Loading/Loading";
+import Posts from "./Posts";
 
 const Middle = () => {
   const [user, loading] = useAuthState(auth);
   const [userData, setUserData] = useState({});
   const [userDataLoading, setUserDataLoading] = useState(true);
   const [isPosted, setIsPosted] = useState(false);
+  const [uploadedImage, setUploadedImage] = useState([]);
 
   const { register, handleSubmit } = useForm();
 
@@ -35,38 +36,42 @@ const Middle = () => {
   const todayDate = `${month} ${date}`;
 
   const onSubmit = async (data, e) => {
-    await axios.post("http://localhost:5000/post", {
-      userName: user.displayName,
-      userImage: userData.img,
-      userEmail: user.email,
-      postCaption: data.postCaption,
-      postLikes: 0,
-      postComments: [
-        {
-          commentUserName: "",
-          commentUserImage: "",
-          commentUserEmail: "",
-          commentText: "",
-        },
-      ],
-      time: todayDate,
-    })
+    await axios
+      .post("https://tranquil-plains-69980.herokuapp.com/post", {
+        userName: user.displayName,
+        userImage: userData.img,
+        userEmail: user.email,
+        postCaption: data.postCaption,
+        postImages: uploadedImage,
+        postLikes: 0,
+        postComments: [
+          {
+            commentUserName: "",
+            commentUserImage: "",
+            commentUserEmail: "",
+            commentText: "",
+          },
+        ],
+        time: todayDate,
+      })
       .then((res) => {
         if (res.status === 200) {
           setIsPosted(!isPosted);
           e.target.reset();
+          setUploadedImage([]);
         }
-      }
-      )
+      });
   };
 
   useEffect(() => {
     if (user) {
       setUserDataLoading(true);
-      axios.get(`http://localhost:5000/user/${user.email}`).then((res) => {
-        setUserData(res.data);
-        setUserDataLoading(false);
-      });
+      axios
+        .get(`https://tranquil-plains-69980.herokuapp.com/user/${user.email}`)
+        .then((res) => {
+          setUserData(res.data);
+          setUserDataLoading(false);
+        });
     }
   }, [user]);
 
@@ -79,7 +84,19 @@ const Middle = () => {
     input.type = "file";
     input.onchange = (_this) => {
       let files = Array.from(input.files);
-      console.log(files);
+      files.forEach((file) => {
+        const imageStorageKey = "25f8fd66fcd0b291d11ff45ad0f16374";
+        const url = `https://api.imgbb.com/1/upload?key=${imageStorageKey}`;
+        const formData = new FormData();
+        formData.append("image", file);
+        axios.post(url, formData).then((res) => {
+          if (res.data.success) {
+            const imageUrl = res.data.data.url;
+            console.log(imageUrl);
+            setUploadedImage([...uploadedImage, imageUrl]);
+          }
+        });
+      });
     };
     input.click();
   };
@@ -89,8 +106,8 @@ const Middle = () => {
       {/* Post form */}
       <div className="post-form bg-white flex justify-center rounded-xl p-10 shadow-sm">
         <img
-          className="w-10 bg-[#0B0F2C] p-2 rounded-full"
-          src={userData.img}
+          className="w-10 h-10 object-cover rounded-full"
+          src={userData?.img}
           alt=""
         />
         <label
@@ -104,7 +121,12 @@ const Middle = () => {
       </div>
 
       {/* <Posts/> */}
-      <Posts isPosted={isPosted} url={`http://localhost:5000/postsByFriends/${[userData.friends]}`}/>
+      <Posts
+        isPosted={isPosted}
+        url={`https://tranquil-plains-69980.herokuapp.com/postsByFriends/${[
+          userData?.friends,
+        ]}`}
+      />
 
       {/* Modal */}
       <div className="post-modal">
@@ -131,14 +153,43 @@ const Middle = () => {
                 name="postCaption"
                 {...register("postCaption")}
               ></textarea>
-              <div className="addExtra border rounded-lg flex justify-between items-center py-4 px-3">
-                <p>Add to your post</p>
-                <img
-                  onClick={openFileDialog}
-                  className="w-6 cursor-pointer"
-                  src="https://i.ibb.co/N3GgfHY/image.png"
-                  alt=""
-                />
+              <div className="flex justify-center space-x-3">
+                {uploadedImage.length > 0 ? (
+                  uploadedImage.map((image, index) => {
+                    return (
+                      <div>
+                        <img
+                          className="w-10 h-10 object-cover rounded-full"
+                          src={image}
+                          alt=""
+                          key={index}
+                        />
+                      </div>
+                    );
+                  })
+                ) : (
+                  <div className="addExtra border rounded-lg flex justify-between items-center py-4 px-3 w-full">
+                    <p>Add to your post</p>
+                    <img
+                      onClick={openFileDialog}
+                      className="w-8 cursor-pointer"
+                      src="https://i.ibb.co/N3GgfHY/image.png"
+                      alt=""
+                    />
+                  </div>
+                )}
+                {uploadedImage.length > 0 ? (
+                  <div>
+                    <img
+                      onClick={openFileDialog}
+                      className="w-8 cursor-pointer"
+                      src="https://i.ibb.co/N3GgfHY/image.png"
+                      alt=""
+                    />
+                  </div>
+                ) : (
+                  ""
+                )}
               </div>
               <input
                 type="submit"
