@@ -6,8 +6,6 @@ import { Link } from "react-router-dom";
 import auth from "../../firebase.init";
 import LeftSide from "../Home/LeftSide";
 import RightSide from "../Home/RightSide";
-import Loading from "../Shared/Loading/Loading";
-import Navbar from "../Shared/Navbar/Navbar";
 
 const Groups = () => {
   const [groups, setGroups] = useState([]);
@@ -18,32 +16,48 @@ const Groups = () => {
   useEffect(() => {
     if (user) {
       setLoading(true);
-      axios.get(`https://tranquil-plains-69980.herokuapp.com/groups/${user.email}`).then((res) => {
-        setGroups(res.data);
-        setLoading(false);
-      });
+      axios
+        .get(`https://tranquil-plains-69980.herokuapp.com/groups/${user.email}`)
+        .then((res) => {
+          setGroups(res.data);
+          setLoading(false);
+        });
     }
   }, [user]);
 
   useEffect(() => {
     if (user) {
       setLoading(true);
-      axios.get(`https://tranquil-plains-69980.herokuapp.com/groups`).then((res) => {
-        setOtherGroups(res.data);
-        setLoading(false);
-      });
+      axios
+        .get(`https://tranquil-plains-69980.herokuapp.com/groups`)
+        .then((res) => {
+          setOtherGroups(res.data);
+          setLoading(false);
+        });
     }
   }, [user]);
 
   if (loading || userLoading) {
-    return <Loading />;
+    return (
+      <div>
+        <div className="flex gap-4">
+          <LeftSide />
+          <div className="middle p-5 m-auto rounded-lg mt-5 max-w-3xl w-full h-screen">
+            <div
+              style={{ borderTopColor: "transparent" }}
+              className="w-16 h-16 border-4 border-blue-400 border-solid rounded-full animate-spin mx-auto"
+            ></div>
+          </div>
+          <RightSide />
+        </div>
+      </div>
+    );
   }
   return (
     <div>
-      <Navbar />
       <div className="flex gap-4">
         <LeftSide />
-        <div className="middle p-5 m-auto rounded-lg mt-5 max-w-3xl w-full h-screen">
+        <div className="middle p-5 m-auto rounded-lg mt-5 max-w-3xl w-full">
           <Link
             to={`/group/new`}
             className="card w-full cursor-pointer bg-white mx-auto mb-4"

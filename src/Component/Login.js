@@ -50,7 +50,7 @@ const Login = () => {
   }
 
   return (
-    <div className="">
+    <div>
       <div className="flex max-h-screen justify-around items-center h-screen lg:px-60 lg:flex-row flex-col">
         <div>
           <h2 className="text-blue-600 text-5xl font-bold">Connect zone</h2>

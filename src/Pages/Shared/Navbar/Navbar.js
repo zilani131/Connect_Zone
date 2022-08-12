@@ -2,11 +2,11 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import {
-    FaFacebookMessenger,
-    FaHome,
-    FaRegBell,
-    FaStore,
-    FaUsers
+  FaFacebookMessenger,
+  FaHome,
+  FaRegBell,
+  FaStore,
+  FaUsers,
 } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import auth from "../../../firebase.init";
@@ -19,9 +19,11 @@ const Navbar = () => {
 
   useEffect(() => {
     if (user) {
-      axios.get(`https://tranquil-plains-69980.herokuapp.com/user/${user.email}`).then((res) => {
-        setUserData(res.data);
-      });
+      axios
+        .get(`https://tranquil-plains-69980.herokuapp.com/user/${user.email}`)
+        .then((res) => {
+          setUserData(res.data);
+        });
     }
   }, [user]);
 
@@ -70,12 +72,16 @@ const Navbar = () => {
               {menu}
             </ul>
           </div>
-          <img src={logo} alt="" className="rounded-full w-10" />
-          <input
-            type="text"
-            placeholder="Search Connected Zone"
-            className="input input-bordered lg:max-w-xs w-full max-h-11 rounded-full ml-2"
-          />
+          <Link to="/"><img src={logo} alt="" className="rounded-full w-10" /></Link>
+          {user ? (
+            <input
+              type="text"
+              placeholder="Search Connected Zone"
+              className="input input-bordered lg:max-w-xs w-full max-h-11 rounded-full ml-2"
+            />
+          ) : (
+            ""
+          )}
         </div>
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal p-0">{user ? menu : ""}</ul>

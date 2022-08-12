@@ -16,10 +16,12 @@ import CreateNewGroup from "./Pages/Groups/CreateNewGroup";
 import Group from "./Pages/Groups/Group";
 import GroupAbout from "./Pages/Groups/GroupAbout";
 import GroupPosts from "./Pages/Groups/GroupPosts";
+import Navbar from "./Pages/Shared/Navbar/Navbar";
 
 function App() {
   return (
     <div>
+      <Navbar/>
       <Routes>
         <Route
           path="/"
@@ -53,7 +55,7 @@ function App() {
               <ConnectedPeople />
             </RequireAuth>
           }
-        />
+        />        
         <Route
           path="/groups"
           element={
@@ -70,9 +72,30 @@ function App() {
             </RequireAuth>
           }
         />
-        <Route path="/group/:groupSlug" element={<Group />} />
-        <Route path="/group/:groupSlug/about" element={<GroupAbout />} />
-        <Route path="/group/:groupSlug/members" element={<GroupPosts />} />
+        <Route
+          path="/group/:groupSlug"
+          element={
+            <RequireAuth>
+              <Group />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/group/:groupSlug/about"
+          element={
+            <RequireAuth>
+              <GroupAbout />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/group/:groupSlug/members"
+          element={
+            <RequireAuth>
+              <GroupPosts />
+            </RequireAuth>
+          }
+        />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
       </Routes>

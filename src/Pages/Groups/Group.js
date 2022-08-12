@@ -15,6 +15,9 @@ const Group = () => {
   const [userDataLoading, setUserDataLoading] = useState(true);
   const [isPosted, setIsPosted] = useState(false);
   const [uploadedImage, setUploadedImage] = useState([]);
+  const [groupInfo, setGroupInfo] = useState({});
+  const [alreadyInThisGroup, setAlreadyInThisGroup] = useState(false);
+  const [somethingChanged, setSomethingChanged] = useState(false);
 
   const { register, handleSubmit } = useForm();
 
@@ -38,23 +41,24 @@ const Group = () => {
   let date = d.getDate();
   const todayDate = `${month} ${date}`;
 
+  var text = "";
+  var possible =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+  for (var i = 0; i < 30; i++) {
+    text += possible.charAt(Math.floor(Math.random() * possible.length));
+  }
+
   const onSubmit = async (data, e) => {
     await axios
       .post(`https://tranquil-plains-69980.herokuapp.com/group/${groupSlug}`, {
+        _id: text,
         userName: user.displayName,
         userImage: userData.img,
         userEmail: user.email,
         postCaption: data.postCaption,
         postImages: uploadedImage,
         postLikes: 0,
-        postComments: [
-          {
-            commentUserName: "",
-            commentUserImage: "",
-            commentUserEmail: "",
-            commentText: "",
-          },
-        ],
         time: todayDate,
       })
       .then((res) => {
@@ -67,6 +71,27 @@ const Group = () => {
   };
 
   useEffect(() => {
+    axios
+      .get(
+        `https://tranquil-plains-69980.herokuapp.com/groupBySlug/${groupSlug}`
+      )
+      .then((res) => {
+        setGroupInfo(res.data);
+      });
+  }, [groupSlug, somethingChanged]);
+
+  useEffect(() => {
+    if (groupInfo?.groupMembers) {
+      for (let i = 0; i < groupInfo?.groupMembers.length; i++) {
+        if (groupInfo?.groupMembers[i] === user?.email) {
+          setAlreadyInThisGroup(true);
+          setSomethingChanged(true);
+        }
+      }
+    }
+  }, [groupInfo, user, somethingChanged]);
+
+  useEffect(() => {
     if (user) {
       setUserDataLoading(true);
       axios
@@ -76,7 +101,7 @@ const Group = () => {
           setUserDataLoading(false);
         });
     }
-  }, [groupSlug, user]);
+  }, [groupSlug, user, somethingChanged]);
 
   if (loading || userDataLoading) {
     return <Loading />;
@@ -108,30 +133,36 @@ const Group = () => {
     <div className="bg-white">
       <GroupHeader groupSlug={groupSlug} />
 
-      <div className="lg:px-60">
-        {/* Post form */}
-        <div className="post-form bg-white flex justify-center rounded-xl p-10 shadow-sm">
-          <img
-            className="w-10 h-10 object-cover rounded-full"
-            src={userData?.img}
-            alt=""
-          />
-          <label
-            for="my-modal"
-            className="cursor-pointer pl-5 relative bg-gray-200 rounded-full w-full ml-4 modal-button"
-          >
-            <span className="absolute top-1/4">
-              What are you thinking, {user.displayName.split(" ")[0]}?
-            </span>
-          </label>
-        </div>
+      {alreadyInThisGroup ? (
+        <div className="lg:px-60">
+          {/* Post form */}
+          <div className="post-form bg-white flex justify-center rounded-xl p-10 shadow-sm sticky">
+            <img
+              className="w-10 h-10 object-cover rounded-full"
+              src={userData?.img}
+              alt=""
+            />
+            <label
+              for="my-modal"
+              className="cursor-pointer pl-5 relative bg-gray-200 rounded-full w-full ml-4 modal-button"
+            >
+              <span className="absolute top-1/4">
+                What are you thinking, {user.displayName.split(" ")[0]}?
+              </span>
+            </label>
+          </div>
 
-        {/* <Posts/> */}
-        <Posts
-          isPosted={isPosted}
-          url={`https://tranquil-plains-69980.herokuapp.com/group/${groupSlug}/posts`}
-        />
-      </div>
+          {/* <Posts/> */}
+          <Posts
+            isPosted={isPosted}
+            url={`https://tranquil-plains-69980.herokuapp.com/group/${groupSlug}/posts`}
+          />
+        </div>
+      ) : (
+        <p className="text-center mt-5 font-bold text-lg">
+          Please Join to view posts
+        </p>
+      )}
 
       {/* Modal */}
       <div className="post-modal">
