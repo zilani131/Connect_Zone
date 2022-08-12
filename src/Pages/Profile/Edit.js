@@ -4,7 +4,6 @@ import { useAuthState, useUpdateProfile } from "react-firebase-hooks/auth";
 import { toast } from "react-toastify";
 import auth from "../../firebase.init";
 import Loading from "../Shared/Loading/Loading";
-import Navbar from "../Shared/Navbar/Navbar";
 
 const Edit = () => {
   const [userData, setUserData] = useState({});
@@ -136,7 +135,6 @@ const Edit = () => {
 
   return (
     <div className="bg-white">
-      <Navbar />
       <div className="edit-profile  px-40 py-5">
         <div className="edit-profile-body mt-10">
           <div className="edit-profile-body-info bg-[#F0F2F5] p-10 rounded-lg">

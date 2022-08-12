@@ -5,7 +5,6 @@ import { useParams } from "react-router-dom";
 import auth from "../../firebase.init";
 import Posts from "../Home/Posts";
 import Loading from "../Shared/Loading/Loading";
-import Navbar from "../Shared/Navbar/Navbar";
 import ProfileHeader from "./ProfileHeader";
 
 const Profile = () => {
@@ -28,7 +27,6 @@ const Profile = () => {
 
   return (
     <div className="bg-white">
-      <Navbar />
       <div className="profile px-40 py-5">
         <ProfileHeader/>
         <div className="profile-body mt-10">

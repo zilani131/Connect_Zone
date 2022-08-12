@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useForm } from "react-hook-form";
 import { FaCommentAlt, FaThumbsUp } from "react-icons/fa";
@@ -16,23 +16,48 @@ const Post = ({ post }) => {
     time,
     postCaption,
     postImages,
-    postLikes,
     reason,
   } = post;
   const [user] = useAuthState(auth);
   const [userData, setUserData] = useState({});
   const [isCommented, setIsCommented] = useState(false);
-  const [isLiked, setIsLiked] = useState(true);
   const [open, setOpen] = useState(false);
   const { email } = useParams();
+  const [commenting, setCommenting] = useState(false);
+  const [likeActive, setLikeActive] = useState(true);
+  const [liking, setLiking] = useState(false);
+  const [postData, setPostData] = useState({});
+  const [alreadyLiked, setAlreadyLiked] = useState(false);
 
-  axios
-    .get(
-      `https://tranquil-plains-69980.herokuapp.com/user/${
-        user ? user.email : email
-      }`
-    )
-    .then((res) => setUserData(res.data));
+  useEffect(() => {
+    axios
+      .get(
+        `https://tranquil-plains-69980.herokuapp.com/user/${
+          user ? user.email : email
+        }`
+      )
+      .then((res) => setUserData(res.data));
+  }, [user, email]);
+
+  useEffect(() => {
+    axios
+      .get(`http://localhost:5000/post/${_id}`)
+      .then((res) => setPostData(res.data));
+  }, [_id, likeActive]);
+
+  useEffect(() => {
+    axios
+      .get(`http://localhost:5000/like/${_id}/${user.email}`)
+      .then((res) => {
+        if (res.data === true) {
+          setAlreadyLiked(true);
+        } else {
+          setAlreadyLiked(false);
+        }
+      });
+  }, [_id, user]);
+
+  const { postLikes: likes } = postData;
   const { img } = userData;
 
   const {
@@ -44,27 +69,54 @@ const Post = ({ post }) => {
     const comment = {
       postId: _id,
       commentUserName: user.displayName,
-      commentUserImage: img,
+      commentUserImage: user.photoURL ? user.photoURL : img,
       commentUserEmail: user.email,
       commentText: data.commentText,
     };
+    setCommenting(true);
     await axios
       .post(`https://tranquil-plains-69980.herokuapp.com/comment`, comment)
       .then((res) => {
         if (res.status === 200) {
           e.target.reset();
           setIsCommented(!isCommented);
+          setCommenting(false);
         }
       });
   };
 
   const updateLike = async (id) => {
-    setIsLiked(!isLiked);
-    await axios.put(`https://tranquil-plains-69980.herokuapp.com/like/${id}`, {
-      postLikes: isLiked ? postLikes + 1 : postLikes - 1,
-    });
-    console.log(isLiked);
+    if (alreadyLiked) {
+      await axios
+        .delete(`http://localhost:5000/like/${id}/${user.email}`)
+        .then((res) => {
+          if (res.status === 200) {
+            setAlreadyLiked(false);
+            setLikeActive(!likeActive);
+          }
+        })
+    } else {
+      setLiking(true);
+      await axios
+        .put(`http://localhost:5000/like/${id}`, {
+          userName,
+          userImage,
+          userEmail,
+          postCaption,
+          postImages,
+          postLikes: [...likes, user.email],
+          time
+        })
+        .then((res) => {
+          if (res.status === 200) {
+            setLiking(false);
+            setAlreadyLiked(true);
+            setLikeActive(!likeActive);
+          }
+        });
+      }
   };
+
 
   return (
     <div className="post card max-w-3xl w-full bg-white shadow-xl mt-5 mx-auto">
@@ -113,15 +165,15 @@ const Post = ({ post }) => {
         <div className="flex justify-around">
           <button
             className={`${
-              isLiked
-                ? "hover:bg-gray-300 rounded-lg w-full transition-all duration-200 py-1 font-semibold"
-                : "hover:bg-gray-300 rounded-lg w-full transition-all duration-200 py-1 font-semibold text-blue-600"
+              alreadyLiked
+                ? "hover:bg-gray-300 rounded-lg w-full transition-all duration-200 py-1 font-semibold text-blue-600"
+                : "hover:bg-gray-300 rounded-lg w-full transition-all duration-200 py-1 font-semibold text-gray-600"
             }`}
             onClick={() => updateLike(_id)}
           >
             <FaThumbsUp className="inline" />
-            <span className="ml-1">Like</span>
-            {/* <span className="ml-1">{postLikes}</span> */}
+            <span className="ml-1">{liking ? "Updating" : "Like"}</span>
+            <span className="ml-1">{likes?.length}</span>
           </button>
 
           <button
@@ -137,9 +189,20 @@ const Post = ({ post }) => {
         {user ? (
           <div className={open ? "comment-section" : "hidden"}>
             <form className="comment flex" onSubmit={handleSubmit(onSubmit)}>
+              {commenting && (
+                <div className="modal-overlay absolute right-0 left-0 top-0 bottom-0 z-40">
+                  <div className="bg-[#3333334c] h-full flex justify-center items-center text-white">
+                    <div class="flex items-center justify-center space-x-2 animate-bounce">
+                      <div class="w-8 h-8 bg-white rounded-full"></div>
+                      <div class="w-8 h-8 bg-white rounded-full"></div>
+                      <div class="w-8 h-8 bg-white rounded-full"></div>
+                    </div>
+                  </div>
+                </div>
+              )}
               <img
                 className="w-12 bg-[#0B0F2C] p-2 rounded-full"
-                src={img}
+                src={user.photoURL ? user.photoURL : img}
                 alt=""
               />
               <input

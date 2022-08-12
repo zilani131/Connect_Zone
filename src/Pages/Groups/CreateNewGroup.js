@@ -7,7 +7,6 @@ import { toast } from "react-toastify";
 import auth from "../../firebase.init";
 import LeftSide from "../Home/LeftSide";
 import RightSide from "../Home/RightSide";
-import Navbar from "../Shared/Navbar/Navbar";
 
 const CreateNewGroup = () => {
   const [user] = useAuthState(auth);
@@ -35,17 +34,18 @@ const CreateNewGroup = () => {
       groupCreatorName: user.displayName,
       groupCreatorEmail: user.email,
     };
-    await axios.post("https://tranquil-plains-69980.herokuapp.com/group", group).then((res) => {
-      if (res.status === 200) {
-        toast.success("Group created successfully");
-        e.target.reset();
-        navigate(`/group/${group.groupSlug}`);
-      }
-    });
+    await axios
+      .post("https://tranquil-plains-69980.herokuapp.com/group", group)
+      .then((res) => {
+        if (res.status === 200) {
+          toast.success("Group created successfully");
+          e.target.reset();
+          navigate(`/group/${group.groupSlug}`);
+        }
+      });
   };
   return (
     <div>
-      <Navbar />
       <div className="flex gap-4">
         <LeftSide />
         <div className="middle p-5 m-auto rounded-lg mt-5 max-w-3xl w-full h-screen">

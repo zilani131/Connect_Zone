@@ -5,7 +5,6 @@ import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import auth from "../../firebase.init";
 import Loading from "../Shared/Loading/Loading";
-import Navbar from "../Shared/Navbar/Navbar";
 import ProfileHeader from "./ProfileHeader";
 
 const FriendRequests = () => {
@@ -41,7 +40,6 @@ const FriendRequests = () => {
   }
   return (
     <div className="bg-white">
-      <Navbar />
       <div className="requests profile px-40 py-5">
         <ProfileHeader />
         <div className="profile-body mt-10">
